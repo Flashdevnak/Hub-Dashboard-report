@@ -31,7 +31,7 @@ function GenericTable({ rows }: { rows: Array<Record<string, unknown>> }) {
 }
 
 export function PageRenderer({ page }: { page: PageDoc }) {
-  const data = page.data as Record<string, unknown>;
+  const data = (page.data ?? {}) as Record<string, any>;
   const summaryData = (data.summaryData ?? page.headline ?? {}) as Record<string, unknown>;
   const monthlyData = (data.monthlyData ?? data.monthlyRows ?? []) as Array<Record<string, unknown>>;
   const dailyData = (data.dailyData ?? []) as Array<Record<string, unknown>>;
