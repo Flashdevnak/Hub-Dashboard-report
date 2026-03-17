@@ -1,0 +1,2990 @@
+{
+  "site": {
+    "appName": "BNAK Performance 2026",
+    "brand": "Flash Express",
+    "theme": {
+      "primary": "#FACC15",
+      "dark": "#171717"
+    },
+    "nav": [
+      {
+        "slug": "dashboard",
+        "label": "หน้าหลัก Dashboard",
+        "group": "ภาพรวม"
+      },
+      {
+        "slug": "kpi-productivity",
+        "label": "ประสิทธิภาพรายบุคคล",
+        "group": "ประสิทธิภาพปฏิบัติการ"
+      },
+      {
+        "slug": "kpi-loading",
+        "label": "การลงรถทันเวลา",
+        "group": "ประสิทธิภาพปฏิบัติการ"
+      },
+      {
+        "slug": "kpi-ontime-arrival",
+        "label": "Arrival On Time",
+        "group": "ประสิทธิภาพปฏิบัติการ"
+      },
+      {
+        "slug": "kpi-ontime-depart",
+        "label": "Departure On Time",
+        "group": "ประสิทธิภาพปฏิบัติการ"
+      },
+      {
+        "slug": "kpi-scan-out",
+        "label": "สแกนพัสดุขาออก",
+        "group": "ประสิทธิภาพปฏิบัติการ"
+      },
+      {
+        "slug": "kpi-scan-in",
+        "label": "สแกนพัสดุขาเข้า",
+        "group": "ประสิทธิภาพปฏิบัติการ"
+      },
+      {
+        "slug": "kpi-damage",
+        "label": "พัสดุเสียหาย",
+        "group": "คุณภาพ"
+      },
+      {
+        "slug": "kpi-lost",
+        "label": "พัสดุสูญหาย",
+        "group": "คุณภาพ"
+      },
+      {
+        "slug": "kpi-inventory",
+        "label": "ค้างคลัง",
+        "group": "คุณภาพ"
+      },
+      {
+        "slug": "kpi-cost-per-piece",
+        "label": "Cost Per Piece",
+        "group": "ต้นทุน"
+      },
+      {
+        "slug": "kpi-cost-per-piece-detail",
+        "label": "Cost Per Piece Detail",
+        "group": "ต้นทุน"
+      },
+      {
+        "slug": "kpi-transport-cost",
+        "label": "Transport Cost",
+        "group": "ต้นทุน"
+      },
+      {
+        "slug": "kpi-transport-cost-detail",
+        "label": "Transport Cost Detail",
+        "group": "ต้นทุน"
+      },
+      {
+        "slug": "kpi-damage-detail",
+        "label": "Damage Detail",
+        "group": "รายละเอียด"
+      },
+      {
+        "slug": "kpi-lost-detail",
+        "label": "Lost Detail",
+        "group": "รายละเอียด"
+      },
+      {
+        "slug": "outstanding-actions",
+        "label": "Outstanding Actions",
+        "group": "บริหารจัดการ"
+      }
+    ]
+  },
+  "pages": [
+    {
+      "slug": "kpi-damage",
+      "title": "พัสดุเสียหาย",
+      "type": "kpi_daily_monthly",
+      "unit": "number",
+      "icon": "alert-triangle",
+      "sourceFile": "kpi-damage.html",
+      "data": {
+        "monthlyData": [
+          {
+            "month": "M1",
+            "target": 0.2,
+            "actual": 0.0
+          },
+          {
+            "month": "M2",
+            "target": 0.19,
+            "actual": 0.0
+          },
+          {
+            "month": "M3",
+            "target": 0.19,
+            "actual": null
+          },
+          {
+            "month": "M4",
+            "target": 0.2,
+            "actual": null
+          },
+          {
+            "month": "M5",
+            "target": 0.2,
+            "actual": null
+          },
+          {
+            "month": "M6",
+            "target": 0.2,
+            "actual": null
+          },
+          {
+            "month": "M7",
+            "target": 0.2,
+            "actual": null
+          },
+          {
+            "month": "M8",
+            "target": 0.2,
+            "actual": null
+          },
+          {
+            "month": "M9",
+            "target": 0.2,
+            "actual": null
+          },
+          {
+            "month": "M10",
+            "target": 0.2,
+            "actual": null
+          },
+          {
+            "month": "M11",
+            "target": 0.2,
+            "actual": null
+          },
+          {
+            "month": "M12",
+            "target": 0.2,
+            "actual": null
+          }
+        ],
+        "dailyData": [
+          {
+            "date": "1",
+            "target": 0.19,
+            "actual": 0.0
+          },
+          {
+            "date": "2",
+            "target": 0.19,
+            "actual": 0.0
+          },
+          {
+            "date": "3",
+            "target": 0.19,
+            "actual": 0.0
+          },
+          {
+            "date": "4",
+            "target": 0.19,
+            "actual": 0.0
+          },
+          {
+            "date": "5",
+            "target": 0.19,
+            "actual": 0.0
+          },
+          {
+            "date": "6",
+            "target": 0.19,
+            "actual": 0.0
+          },
+          {
+            "date": "7",
+            "target": 0.19,
+            "actual": 0.0
+          },
+          {
+            "date": "8",
+            "target": 0.19,
+            "actual": 0.0
+          },
+          {
+            "date": "9",
+            "target": 0.19,
+            "actual": 0.0
+          },
+          {
+            "date": "10",
+            "target": 0.19,
+            "actual": 0.0
+          },
+          {
+            "date": "11",
+            "target": 0.19,
+            "actual": 0.0
+          },
+          {
+            "date": "12",
+            "target": 0.19,
+            "actual": 0.0
+          },
+          {
+            "date": "13",
+            "target": 0.19,
+            "actual": 0.0
+          },
+          {
+            "date": "14",
+            "target": 0.19,
+            "actual": 0.0
+          },
+          {
+            "date": "15",
+            "target": 0.19,
+            "actual": 0.0
+          },
+          {
+            "date": "16",
+            "target": 0.19,
+            "actual": 0.0
+          },
+          {
+            "date": "17",
+            "target": 0.19,
+            "actual": 0.0
+          },
+          {
+            "date": "18",
+            "target": 0.19,
+            "actual": 0.0
+          },
+          {
+            "date": "19",
+            "target": 0.19,
+            "actual": 0.0
+          },
+          {
+            "date": "20",
+            "target": 0.19,
+            "actual": 0.0
+          },
+          {
+            "date": "21",
+            "target": 0.19,
+            "actual": 0.0
+          },
+          {
+            "date": "22",
+            "target": 0.19,
+            "actual": 0.0
+          },
+          {
+            "date": "23",
+            "target": 0.19,
+            "actual": 0.0
+          },
+          {
+            "date": "24",
+            "target": 0.19,
+            "actual": 0.0
+          },
+          {
+            "date": "25",
+            "target": 0.19,
+            "actual": 0.0
+          },
+          {
+            "date": "26",
+            "target": 0.19,
+            "actual": 0.0
+          },
+          {
+            "date": "27",
+            "target": 0.19,
+            "actual": 0.0
+          },
+          {
+            "date": "28",
+            "target": 0.19,
+            "actual": 0.0
+          }
+        ],
+        "summaryData": {
+          "month": "M2",
+          "target": 0.19,
+          "actual": 0.0
+        }
+      },
+      "headline": {
+        "month": "M2",
+        "target": 0.19,
+        "actual": 0.0
+      }
+    },
+    {
+      "slug": "kpi-ontime-arrival",
+      "title": "Arrival On Time",
+      "type": "kpi_daily_monthly",
+      "unit": "percent",
+      "icon": "package-check",
+      "sourceFile": "kpi-ontime-arrival.html",
+      "data": {
+        "monthlyData": [
+          {
+            "month": "M1",
+            "target": 0.985,
+            "actual": 0.8809
+          },
+          {
+            "month": "M2",
+            "target": 0.99,
+            "actual": 0.9473
+          },
+          {
+            "month": "M3",
+            "target": 0.99,
+            "actual": null
+          },
+          {
+            "month": "M4",
+            "target": 0.99,
+            "actual": null
+          },
+          {
+            "month": "M5",
+            "target": 0.99,
+            "actual": null
+          },
+          {
+            "month": "M6",
+            "target": 0.99,
+            "actual": null
+          },
+          {
+            "month": "M7",
+            "target": 0.99,
+            "actual": null
+          },
+          {
+            "month": "M8",
+            "target": 0.99,
+            "actual": null
+          },
+          {
+            "month": "M9",
+            "target": 0.99,
+            "actual": null
+          },
+          {
+            "month": "M10",
+            "target": 0.99,
+            "actual": null
+          },
+          {
+            "month": "M11",
+            "target": 0.99,
+            "actual": null
+          },
+          {
+            "month": "M12",
+            "target": 0.99,
+            "actual": null
+          }
+        ],
+        "dailyData": [
+          {
+            "date": "1",
+            "target": 0.99,
+            "actual": 0.871
+          },
+          {
+            "date": "2",
+            "target": 0.99,
+            "actual": 1.0
+          },
+          {
+            "date": "3",
+            "target": 0.99,
+            "actual": 1.0
+          },
+          {
+            "date": "4",
+            "target": 0.99,
+            "actual": 1.0
+          },
+          {
+            "date": "5",
+            "target": 0.99,
+            "actual": 1.0
+          },
+          {
+            "date": "6",
+            "target": 0.99,
+            "actual": 0.8649
+          },
+          {
+            "date": "7",
+            "target": 0.99,
+            "actual": 1.0
+          },
+          {
+            "date": "8",
+            "target": 0.99,
+            "actual": 0.8529
+          },
+          {
+            "date": "9",
+            "target": 0.99,
+            "actual": 0.7826
+          },
+          {
+            "date": "10",
+            "target": 0.99,
+            "actual": 0.8919
+          },
+          {
+            "date": "11",
+            "target": 0.99,
+            "actual": 0.9722
+          },
+          {
+            "date": "12",
+            "target": 0.99,
+            "actual": 0.8919
+          },
+          {
+            "date": "13",
+            "target": 0.99,
+            "actual": 0.9697
+          },
+          {
+            "date": "14",
+            "target": 0.99,
+            "actual": 0.9333
+          },
+          {
+            "date": "15",
+            "target": 0.99,
+            "actual": 1.0
+          },
+          {
+            "date": "16",
+            "target": 0.99,
+            "actual": 1.0
+          },
+          {
+            "date": "17",
+            "target": 0.99,
+            "actual": 0.9048
+          },
+          {
+            "date": "18",
+            "target": 0.99,
+            "actual": 0.9737
+          },
+          {
+            "date": "19",
+            "target": 0.99,
+            "actual": 0.9394
+          },
+          {
+            "date": "20",
+            "target": 0.99,
+            "actual": 0.9355
+          },
+          {
+            "date": "21",
+            "target": 0.99,
+            "actual": 1.0
+          },
+          {
+            "date": "22",
+            "target": 0.99,
+            "actual": 1.0
+          },
+          {
+            "date": "23",
+            "target": 0.99,
+            "actual": 0.9545
+          },
+          {
+            "date": "24",
+            "target": 0.99,
+            "actual": 0.8824
+          },
+          {
+            "date": "25",
+            "target": 0.99,
+            "actual": 0.9697
+          },
+          {
+            "date": "26",
+            "target": 0.99,
+            "actual": 0.9688
+          },
+          {
+            "date": "27",
+            "target": 0.99,
+            "actual": 0.9714
+          },
+          {
+            "date": "28",
+            "target": 0.99,
+            "actual": 0.9677
+          }
+        ],
+        "summaryData": {
+          "month": "M2",
+          "target": 0.99,
+          "actual": 0.9473
+        }
+      },
+      "headline": {
+        "month": "M2",
+        "target": 0.99,
+        "actual": 0.9473
+      }
+    },
+    {
+      "slug": "kpi-cost-per-piece-detail",
+      "title": "Cost Per Piece Detail",
+      "type": "detail_cost_breakdown",
+      "unit": "currency",
+      "icon": "table",
+      "sourceFile": "kpi-cost-per-piece-detail.html",
+      "data": {
+        "monthlyRows": [
+          {
+            "month": "M1",
+            "target": 2.908275006,
+            "volume": 639409,
+            "budget": 1859577.214,
+            "actual": 3.5179261,
+            "cost": 2249393.61
+          },
+          {
+            "month": "M2",
+            "target": 2.762861256,
+            "volume": 576878,
+            "budget": 1593833.876,
+            "actual": 3.215319251,
+            "cost": 1854721.55
+          },
+          {
+            "month": "M3",
+            "target": 2.762861256,
+            "volume": null,
+            "budget": null,
+            "actual": null,
+            "cost": null
+          },
+          {
+            "month": "M4",
+            "target": 2.850109506,
+            "volume": null,
+            "budget": null,
+            "actual": null,
+            "cost": null
+          },
+          {
+            "month": "M5",
+            "target": 2.850109506,
+            "volume": null,
+            "budget": null,
+            "actual": null,
+            "cost": null
+          },
+          {
+            "month": "M6",
+            "target": 2.850109506,
+            "volume": null,
+            "budget": null,
+            "actual": null,
+            "cost": null
+          },
+          {
+            "month": "M7",
+            "target": 2.908275007,
+            "volume": null,
+            "budget": null,
+            "actual": null,
+            "cost": null
+          },
+          {
+            "month": "M8",
+            "target": 2.908275007,
+            "volume": null,
+            "budget": null,
+            "actual": null,
+            "cost": null
+          },
+          {
+            "month": "M9",
+            "target": 2.908275007,
+            "volume": null,
+            "budget": null,
+            "actual": null,
+            "cost": null
+          },
+          {
+            "month": "M10",
+            "target": 2.908275007,
+            "volume": null,
+            "budget": null,
+            "actual": null,
+            "cost": null
+          },
+          {
+            "month": "M11",
+            "target": 2.908275007,
+            "volume": null,
+            "budget": null,
+            "actual": null,
+            "cost": null
+          },
+          {
+            "month": "M12",
+            "target": 2.908275007,
+            "volume": null,
+            "budget": null,
+            "actual": null,
+            "cost": null
+          }
+        ],
+        "quarterRows": [
+          {
+            "quarter": "Q1",
+            "cost": 4104115.16,
+            "target": 2.76,
+            "actual": 3.37
+          },
+          {
+            "quarter": "Q2",
+            "cost": null,
+            "target": 2.85,
+            "actual": null
+          },
+          {
+            "quarter": "Q3",
+            "cost": null,
+            "target": 2.91,
+            "actual": null
+          },
+          {
+            "quarter": "Q4",
+            "cost": null,
+            "target": 2.91,
+            "actual": null
+          }
+        ],
+        "costItems": [
+          {
+            "name": "Expenses-Salary-Basic Salary",
+            "amount": 536139.33
+          },
+          {
+            "name": "Expenses-Office Expenses- Office Leasing expenses",
+            "amount": 540000.0
+          },
+          {
+            "name": "Expenses-Labour Services-Outsourcing",
+            "amount": 207381.01
+          },
+          {
+            "name": "Expenses-Labour Services-Outsourcing",
+            "amount": 186217.46
+          },
+          {
+            "name": "Expenses-Salary-Commission",
+            "amount": 128907.14
+          },
+          {
+            "name": "Expenses-Salary-Allowances",
+            "amount": 74696.68
+          },
+          {
+            "name": "Expenses-Salary-OT",
+            "amount": 55907.64
+          },
+          {
+            "name": "Expenses-Office Expenses- Water&Electricity",
+            "amount": 52958.0
+          },
+          {
+            "name": "Expenses-Depreciation-Machines",
+            "amount": 47803.0
+          },
+          {
+            "name": "Low value Consumables",
+            "amount": 40179.0
+          },
+          {
+            "name": "Expenses-Office Expenses-Office Supplies",
+            "amount": 32951.0
+          },
+          {
+            "name": "Expenses-Staff-Social Security",
+            "amount": 25491.0
+          },
+          {
+            "name": "Expenses-Amortization - Decoration",
+            "amount": 7115.0
+          },
+          {
+            "name": "Consumption Costs-Consumables",
+            "amount": 7574.86
+          },
+          {
+            "name": "Consumption Costs-Consumables",
+            "amount": 4129.17
+          },
+          {
+            "name": "Expenses-Depreciation-Machines",
+            "amount": 2836.0
+          },
+          {
+            "name": "Expenses-Depreciation-Machines",
+            "amount": 2362.0
+          },
+          {
+            "name": "Expenses-Office Expenses-Cleaning",
+            "amount": 1609.0
+          },
+          {
+            "name": "Expenses-Office Expenses- Drinking Water",
+            "amount": 1590.0
+          },
+          {
+            "name": "Expenses-Office Expenses- Water&Electricity",
+            "amount": 1589.0
+          },
+          {
+            "name": "Expenses-Office Expenses-Cleaning",
+            "amount": 1200.0
+          },
+          {
+            "name": "Expenses-Office Expenses- Miscellaneous",
+            "amount": 600.0
+          },
+          {
+            "name": "Expenses-Office Expenses- Miscellaneous",
+            "amount": 600.0
+          },
+          {
+            "name": "Expenses-Amortization - Decoration",
+            "amount": 593.0
+          },
+          {
+            "name": "Expenses-Depreciation-Electronic Equipment",
+            "amount": 615.0
+          },
+          {
+            "name": "Consumption Costs-Consumables",
+            "amount": 510.2
+          },
+          {
+            "name": "Expenses-Depreciation-Electronic Equipment",
+            "amount": 362.0
+          },
+          {
+            "name": "Expenses-Depreciation-Electronic Equipment",
+            "amount": 205.0
+          },
+          {
+            "name": "Expenses-Depreciation-Office Furniture",
+            "amount": 199.0
+          },
+          {
+            "name": "Consumption Costs-Consumables",
+            "amount": 199.89
+          },
+          {
+            "name": "Consumption Costs-Consumables",
+            "amount": 180.74
+          },
+          {
+            "name": "Non-operating loss-Asset Disposal",
+            "amount": 128.12
+          },
+          {
+            "name": "Consumption Costs-Consumables",
+            "amount": 238.1
+          },
+          {
+            "name": "Consumption Costs-Consumables",
+            "amount": 111.61
+          },
+          {
+            "name": "Consumption Costs-Work Clothes",
+            "amount": 103.17
+          },
+          {
+            "name": "Expenses-Maintenance & Repairs",
+            "amount": 903.0
+          },
+          {
+            "name": "Expenses-Office Expenses- Telecommunication",
+            "amount": 218.0
+          },
+          {
+            "name": "Expenses-Office Expenses-Office Supplies",
+            "amount": -4.0
+          },
+          {
+            "name": "Expenses-Office Expenses-Cleaning",
+            "amount": -6.0
+          },
+          {
+            "name": "Expenses-Maintenance & Repairs",
+            "amount": -2.0
+          },
+          {
+            "name": "Expenses-Amortization - Decoration",
+            "amount": -593.0
+          },
+          {
+            "name": "Expenses-Amortization - Decoration",
+            "amount": -7115.0
+          },
+          {
+            "name": "Expenses-Office Expenses- Water&Electricity",
+            "amount": -52958.0
+          },
+          {
+            "name": "Expenses-Office Expenses- Miscellaneous",
+            "amount": -1200.0
+          },
+          {
+            "name": "Expenses-Depreciation-Machines",
+            "amount": -47803.0
+          }
+        ]
+      }
+    },
+    {
+      "slug": "kpi-inventory",
+      "title": "ค้างคลัง",
+      "type": "kpi_daily_monthly",
+      "unit": "percent",
+      "icon": "archive",
+      "sourceFile": "kpi-inventory.html",
+      "data": {
+        "monthlyData": [
+          {
+            "month": "M1",
+            "target": 0.9,
+            "actual": 2.12
+          },
+          {
+            "month": "M2",
+            "target": 0.9,
+            "actual": 1.71714642368612
+          },
+          {
+            "month": "M3",
+            "target": 0.9,
+            "actual": null
+          },
+          {
+            "month": "M4",
+            "target": 0.9,
+            "actual": null
+          },
+          {
+            "month": "M5",
+            "target": 0.9,
+            "actual": null
+          },
+          {
+            "month": "M6",
+            "target": 0.9,
+            "actual": null
+          },
+          {
+            "month": "M7",
+            "target": 0.9,
+            "actual": null
+          },
+          {
+            "month": "M8",
+            "target": 0.9,
+            "actual": null
+          },
+          {
+            "month": "M9",
+            "target": 0.9,
+            "actual": null
+          },
+          {
+            "month": "M10",
+            "target": 0.9,
+            "actual": null
+          },
+          {
+            "month": "M11",
+            "target": 0.9,
+            "actual": null
+          },
+          {
+            "month": "M12",
+            "target": 0.9,
+            "actual": null
+          }
+        ],
+        "dailyData": [
+          {
+            "date": "1",
+            "target": 0.9,
+            "actual": 5.27
+          },
+          {
+            "date": "2",
+            "target": 0.9,
+            "actual": 4.84
+          },
+          {
+            "date": "3",
+            "target": 0.9,
+            "actual": 1.06
+          },
+          {
+            "date": "4",
+            "target": 0.9,
+            "actual": 3.29
+          },
+          {
+            "date": "5",
+            "target": 0.9,
+            "actual": 3.12
+          },
+          {
+            "date": "6",
+            "target": 0.9,
+            "actual": 1.39
+          },
+          {
+            "date": "7",
+            "target": 0.9,
+            "actual": 1.9
+          },
+          {
+            "date": "8",
+            "target": 0.9,
+            "actual": 4.08
+          },
+          {
+            "date": "9",
+            "target": 0.9,
+            "actual": 1.97
+          },
+          {
+            "date": "10",
+            "target": 0.9,
+            "actual": 1.97
+          },
+          {
+            "date": "11",
+            "target": 0.9,
+            "actual": 2.38
+          },
+          {
+            "date": "12",
+            "target": 0.9,
+            "actual": 1.3
+          },
+          {
+            "date": "13",
+            "target": 0.9,
+            "actual": 1.23
+          },
+          {
+            "date": "14",
+            "target": 0.9,
+            "actual": 0.84
+          },
+          {
+            "date": "15",
+            "target": 0.9,
+            "actual": 1.05
+          },
+          {
+            "date": "16",
+            "target": 0.9,
+            "actual": 0.7
+          },
+          {
+            "date": "17",
+            "target": 0.9,
+            "actual": 1.07
+          },
+          {
+            "date": "18",
+            "target": 0.9,
+            "actual": 1.39
+          },
+          {
+            "date": "19",
+            "target": 0.9,
+            "actual": 0.75
+          },
+          {
+            "date": "20",
+            "target": 0.9,
+            "actual": 0.87
+          },
+          {
+            "date": "21",
+            "target": 0.9,
+            "actual": 0.47
+          },
+          {
+            "date": "22",
+            "target": 0.9,
+            "actual": 0.6
+          },
+          {
+            "date": "23",
+            "target": 0.9,
+            "actual": 0.57
+          },
+          {
+            "date": "24",
+            "target": 0.9,
+            "actual": 0.25
+          },
+          {
+            "date": "25",
+            "target": 0.9,
+            "actual": 0.59
+          },
+          {
+            "date": "26",
+            "target": 0.9,
+            "actual": 0.45
+          },
+          {
+            "date": "27",
+            "target": 0.9,
+            "actual": 1.52
+          },
+          {
+            "date": "28",
+            "target": 0.9,
+            "actual": 1.3
+          }
+        ],
+        "summaryData": {
+          "month": "M2",
+          "target": 0.9,
+          "actual": 1.71714642368612
+        }
+      },
+      "headline": {
+        "month": "M2",
+        "target": 0.9,
+        "actual": 1.71714642368612
+      }
+    },
+    {
+      "slug": "kpi-ontime-depart",
+      "title": "Departure On Time",
+      "type": "kpi_daily_monthly",
+      "unit": "percent",
+      "icon": "truck",
+      "sourceFile": "kpi-ontime-depart.html",
+      "data": {
+        "monthlyData": [
+          {
+            "month": "M1",
+            "target": 0.995,
+            "actual": 0.9946
+          },
+          {
+            "month": "M2",
+            "target": 0.995,
+            "actual": 0.987
+          },
+          {
+            "month": "M3",
+            "target": 0.995,
+            "actual": null
+          },
+          {
+            "month": "M4",
+            "target": 0.995,
+            "actual": null
+          },
+          {
+            "month": "M5",
+            "target": 0.995,
+            "actual": null
+          },
+          {
+            "month": "M6",
+            "target": 0.995,
+            "actual": null
+          },
+          {
+            "month": "M7",
+            "target": 0.995,
+            "actual": null
+          },
+          {
+            "month": "M8",
+            "target": 0.995,
+            "actual": null
+          },
+          {
+            "month": "M9",
+            "target": 0.995,
+            "actual": null
+          },
+          {
+            "month": "M10",
+            "target": 0.995,
+            "actual": null
+          },
+          {
+            "month": "M11",
+            "target": 0.995,
+            "actual": null
+          },
+          {
+            "month": "M12",
+            "target": 0.995,
+            "actual": null
+          }
+        ],
+        "dailyData": [
+          {
+            "date": "1",
+            "target": 0.995,
+            "actual": 1.0
+          },
+          {
+            "date": "2",
+            "target": 0.995,
+            "actual": 1.0
+          },
+          {
+            "date": "3",
+            "target": 0.995,
+            "actual": 0.9302
+          },
+          {
+            "date": "4",
+            "target": 0.995,
+            "actual": 0.94
+          },
+          {
+            "date": "5",
+            "target": 0.995,
+            "actual": 0.9583
+          },
+          {
+            "date": "6",
+            "target": 0.995,
+            "actual": 0.9767
+          },
+          {
+            "date": "7",
+            "target": 0.995,
+            "actual": 0.9565
+          },
+          {
+            "date": "8",
+            "target": 0.995,
+            "actual": 1.0
+          },
+          {
+            "date": "9",
+            "target": 0.995,
+            "actual": 0.9697
+          },
+          {
+            "date": "10",
+            "target": 0.995,
+            "actual": 1.0
+          },
+          {
+            "date": "11",
+            "target": 0.995,
+            "actual": 1.0
+          },
+          {
+            "date": "12",
+            "target": 0.995,
+            "actual": 1.0
+          },
+          {
+            "date": "13",
+            "target": 0.995,
+            "actual": 1.0
+          },
+          {
+            "date": "14",
+            "target": 0.995,
+            "actual": 0.973
+          },
+          {
+            "date": "15",
+            "target": 0.995,
+            "actual": 1.0
+          },
+          {
+            "date": "16",
+            "target": 0.995,
+            "actual": 1.0
+          },
+          {
+            "date": "17",
+            "target": 0.995,
+            "actual": 1.0
+          },
+          {
+            "date": "18",
+            "target": 0.995,
+            "actual": 1.0
+          },
+          {
+            "date": "19",
+            "target": 0.995,
+            "actual": 1.0
+          },
+          {
+            "date": "20",
+            "target": 0.995,
+            "actual": 1.0
+          },
+          {
+            "date": "21",
+            "target": 0.995,
+            "actual": 1.0
+          },
+          {
+            "date": "22",
+            "target": 0.995,
+            "actual": 1.0
+          },
+          {
+            "date": "23",
+            "target": 0.995,
+            "actual": 1.0
+          },
+          {
+            "date": "24",
+            "target": 0.995,
+            "actual": 1.0
+          },
+          {
+            "date": "25",
+            "target": 0.995,
+            "actual": 1.0
+          },
+          {
+            "date": "26",
+            "target": 0.995,
+            "actual": 1.0
+          },
+          {
+            "date": "27",
+            "target": 0.995,
+            "actual": 1.0
+          },
+          {
+            "date": "28",
+            "target": 0.995,
+            "actual": 0.9744
+          }
+        ],
+        "summaryData": {
+          "month": "M2",
+          "target": 0.995,
+          "actual": 0.987
+        }
+      },
+      "headline": {
+        "month": "M2",
+        "target": 0.995,
+        "actual": 0.987
+      }
+    },
+    {
+      "slug": "kpi-cost-per-piece",
+      "title": "Cost Per Piece",
+      "type": "kpi_monthly_quarterly",
+      "unit": "currency",
+      "icon": "coins",
+      "sourceFile": "kpi-cost-per-piece.html",
+      "data": {
+        "monthlyData": [
+          {
+            "month": "M1",
+            "cost": 2249393.61,
+            "target": 2.91,
+            "actual": 3.52
+          },
+          {
+            "month": "M2",
+            "cost": 1854721.55,
+            "target": 2.76,
+            "actual": 3.22
+          },
+          {
+            "month": "M3",
+            "cost": null,
+            "target": 2.76,
+            "actual": null
+          },
+          {
+            "month": "M4",
+            "cost": null,
+            "target": 2.85,
+            "actual": null
+          },
+          {
+            "month": "M5",
+            "cost": null,
+            "target": 2.85,
+            "actual": null
+          },
+          {
+            "month": "M6",
+            "cost": null,
+            "target": 2.85,
+            "actual": null
+          },
+          {
+            "month": "M7",
+            "cost": null,
+            "target": 2.91,
+            "actual": null
+          },
+          {
+            "month": "M8",
+            "cost": null,
+            "target": 2.91,
+            "actual": null
+          },
+          {
+            "month": "M9",
+            "cost": null,
+            "target": 2.91,
+            "actual": null
+          },
+          {
+            "month": "M10",
+            "cost": null,
+            "target": 2.91,
+            "actual": null
+          },
+          {
+            "month": "M11",
+            "cost": null,
+            "target": 2.91,
+            "actual": null
+          },
+          {
+            "month": "M12",
+            "cost": null,
+            "target": 2.91,
+            "actual": null
+          }
+        ],
+        "quarterlyData": [
+          {
+            "quarter": "Q1",
+            "cost": 4104115.16,
+            "target": 2.76,
+            "actual": 3.37
+          },
+          {
+            "quarter": "Q2",
+            "cost": null,
+            "target": 2.85,
+            "actual": null
+          },
+          {
+            "quarter": "Q3",
+            "cost": null,
+            "target": 2.91,
+            "actual": null
+          },
+          {
+            "quarter": "Q4",
+            "cost": null,
+            "target": 2.91,
+            "actual": null
+          }
+        ],
+        "summaryData": {
+          "month": "M2",
+          "cost": 1854721.55,
+          "target": 2.76,
+          "actual": 3.22
+        }
+      },
+      "headline": {
+        "month": "M2",
+        "cost": 1854721.55,
+        "target": 2.76,
+        "actual": 3.22
+      }
+    },
+    {
+      "slug": "kpi-lost",
+      "title": "พัสดุสูญหาย",
+      "type": "kpi_daily_monthly",
+      "unit": "number",
+      "icon": "search-x",
+      "sourceFile": "kpi-lost.html",
+      "data": {
+        "monthlyData": [
+          {
+            "month": "M1",
+            "target": 0.3,
+            "actual": 0.0
+          },
+          {
+            "month": "M2",
+            "target": 0.29,
+            "actual": 0.0
+          },
+          {
+            "month": "M3",
+            "target": 0.29,
+            "actual": null
+          },
+          {
+            "month": "M4",
+            "target": 0.29,
+            "actual": null
+          },
+          {
+            "month": "M5",
+            "target": 0.29,
+            "actual": null
+          },
+          {
+            "month": "M6",
+            "target": 0.29,
+            "actual": null
+          },
+          {
+            "month": "M7",
+            "target": 0.3,
+            "actual": null
+          },
+          {
+            "month": "M8",
+            "target": 0.3,
+            "actual": null
+          },
+          {
+            "month": "M9",
+            "target": 0.3,
+            "actual": null
+          },
+          {
+            "month": "M10",
+            "target": 0.3,
+            "actual": null
+          },
+          {
+            "month": "M11",
+            "target": 0.3,
+            "actual": null
+          },
+          {
+            "month": "M12",
+            "target": 0.3,
+            "actual": null
+          }
+        ],
+        "dailyData": [
+          {
+            "date": "1",
+            "target": 0.29,
+            "actual": 0.0
+          },
+          {
+            "date": "2",
+            "target": 0.29,
+            "actual": 0.0
+          },
+          {
+            "date": "3",
+            "target": 0.29,
+            "actual": 0.0
+          },
+          {
+            "date": "4",
+            "target": 0.29,
+            "actual": 0.0
+          },
+          {
+            "date": "5",
+            "target": 0.29,
+            "actual": 0.0
+          },
+          {
+            "date": "6",
+            "target": 0.29,
+            "actual": 0.0
+          },
+          {
+            "date": "7",
+            "target": 0.29,
+            "actual": 0.0
+          },
+          {
+            "date": "8",
+            "target": 0.29,
+            "actual": 0.0
+          },
+          {
+            "date": "9",
+            "target": 0.29,
+            "actual": 0.0
+          },
+          {
+            "date": "10",
+            "target": 0.29,
+            "actual": 0.0
+          },
+          {
+            "date": "11",
+            "target": 0.29,
+            "actual": 0.0
+          },
+          {
+            "date": "12",
+            "target": 0.29,
+            "actual": 0.0
+          },
+          {
+            "date": "13",
+            "target": 0.29,
+            "actual": 0.0
+          },
+          {
+            "date": "14",
+            "target": 0.29,
+            "actual": 0.0
+          },
+          {
+            "date": "15",
+            "target": 0.29,
+            "actual": 0.0
+          },
+          {
+            "date": "16",
+            "target": 0.29,
+            "actual": 0.0
+          },
+          {
+            "date": "17",
+            "target": 0.29,
+            "actual": 0.0
+          },
+          {
+            "date": "18",
+            "target": 0.29,
+            "actual": 0.0
+          },
+          {
+            "date": "19",
+            "target": 0.29,
+            "actual": 0.0
+          },
+          {
+            "date": "20",
+            "target": 0.29,
+            "actual": 0.0
+          },
+          {
+            "date": "21",
+            "target": 0.29,
+            "actual": 0.0
+          },
+          {
+            "date": "22",
+            "target": 0.29,
+            "actual": 0.0
+          },
+          {
+            "date": "23",
+            "target": 0.29,
+            "actual": 0.0
+          },
+          {
+            "date": "24",
+            "target": 0.29,
+            "actual": 0.0
+          },
+          {
+            "date": "25",
+            "target": 0.29,
+            "actual": 0.0
+          },
+          {
+            "date": "26",
+            "target": 0.29,
+            "actual": 0.0
+          },
+          {
+            "date": "27",
+            "target": 0.29,
+            "actual": 0.0
+          },
+          {
+            "date": "28",
+            "target": 0.29,
+            "actual": 0.0
+          }
+        ],
+        "summaryData": {
+          "month": "M2",
+          "target": 0.29,
+          "actual": 0.0
+        }
+      },
+      "headline": {
+        "month": "M2",
+        "target": 0.29,
+        "actual": 0.0
+      }
+    },
+    {
+      "slug": "kpi-damage-detail",
+      "title": "Damage Detail",
+      "type": "detail_records",
+      "unit": "number",
+      "icon": "table",
+      "sourceFile": "kpi-damage-detail.html",
+      "data": {
+        "causeStats": {
+          "ฉีกขาด": 1
+        },
+        "detailRecords": [
+          {
+            "cause": "ฉีกขาด",
+            "status": "ร้องเรียนสำเร็จ 申诉成功"
+          }
+        ],
+        "monthlyData": [
+          {
+            "month": "M1",
+            "target": 1,
+            "actual": 0
+          },
+          {
+            "month": "M2",
+            "target": 1,
+            "actual": 0
+          },
+          {
+            "month": "M3",
+            "target": 1,
+            "actual": "-"
+          },
+          {
+            "month": "M4",
+            "target": 1,
+            "actual": "-"
+          },
+          {
+            "month": "M5",
+            "target": 1,
+            "actual": "-"
+          },
+          {
+            "month": "M6",
+            "target": 1,
+            "actual": "-"
+          },
+          {
+            "month": "M7",
+            "target": 1,
+            "actual": "-"
+          },
+          {
+            "month": "M8",
+            "target": 1,
+            "actual": "-"
+          },
+          {
+            "month": "M9",
+            "target": 1,
+            "actual": "-"
+          },
+          {
+            "month": "M10",
+            "target": 1,
+            "actual": "-"
+          },
+          {
+            "month": "M11",
+            "target": 1,
+            "actual": "-"
+          },
+          {
+            "month": "M12",
+            "target": 1,
+            "actual": "-"
+          }
+        ]
+      },
+      "headline": {
+        "month": "M12",
+        "target": 1,
+        "actual": "-"
+      }
+    },
+    {
+      "slug": "kpi-loading",
+      "title": "การลงรถทันเวลา",
+      "type": "kpi_daily_monthly",
+      "unit": "percent",
+      "icon": "truck",
+      "sourceFile": "kpi-loading.html",
+      "data": {
+        "monthlyData": [
+          {
+            "month": "M1",
+            "target": 0.9,
+            "actual": 0.9021928330087531
+          },
+          {
+            "month": "M2",
+            "target": 0.9,
+            "actual": 0.881524370088396
+          },
+          {
+            "month": "M3",
+            "target": 0.9,
+            "actual": 0
+          },
+          {
+            "month": "M4",
+            "target": 0.9,
+            "actual": 0
+          },
+          {
+            "month": "M5",
+            "target": 0.9,
+            "actual": 0
+          },
+          {
+            "month": "M6",
+            "target": 0.9,
+            "actual": 0
+          },
+          {
+            "month": "M7",
+            "target": 0.9,
+            "actual": 0
+          },
+          {
+            "month": "M8",
+            "target": 0.9,
+            "actual": 0
+          },
+          {
+            "month": "M9",
+            "target": 0.9,
+            "actual": 0
+          },
+          {
+            "month": "M10",
+            "target": 0.9,
+            "actual": 0
+          },
+          {
+            "month": "M11",
+            "target": 0.9,
+            "actual": 0
+          },
+          {
+            "month": "M12",
+            "target": 0.9,
+            "actual": 0
+          }
+        ],
+        "dailyData": [
+          {
+            "date": "1",
+            "target": 0.9,
+            "actual": 0.9131
+          },
+          {
+            "date": "2",
+            "target": 0.9,
+            "actual": 1.0007
+          },
+          {
+            "date": "3",
+            "target": 0.9,
+            "actual": 0.8767
+          },
+          {
+            "date": "4",
+            "target": 0.9,
+            "actual": 0.8499
+          },
+          {
+            "date": "5",
+            "target": 0.9,
+            "actual": 0.8463
+          },
+          {
+            "date": "6",
+            "target": 0.9,
+            "actual": 0.9233
+          },
+          {
+            "date": "7",
+            "target": 0.9,
+            "actual": 0.8975
+          },
+          {
+            "date": "8",
+            "target": 0.9,
+            "actual": 0.901
+          },
+          {
+            "date": "9",
+            "target": 0.9,
+            "actual": 0.998
+          },
+          {
+            "date": "10",
+            "target": 0.9,
+            "actual": 0.9075
+          },
+          {
+            "date": "11",
+            "target": 0.9,
+            "actual": 0.9257
+          },
+          {
+            "date": "12",
+            "target": 0.9,
+            "actual": 0.9059
+          },
+          {
+            "date": "13",
+            "target": 0.9,
+            "actual": 0.8835
+          },
+          {
+            "date": "14",
+            "target": 0.9,
+            "actual": 0.8573
+          },
+          {
+            "date": "15",
+            "target": 0.9,
+            "actual": 0.8484
+          },
+          {
+            "date": "16",
+            "target": 0.9,
+            "actual": 0.9297
+          },
+          {
+            "date": "17",
+            "target": 0.9,
+            "actual": 0.8121
+          },
+          {
+            "date": "18",
+            "target": 0.9,
+            "actual": 0.8697
+          },
+          {
+            "date": "19",
+            "target": 0.9,
+            "actual": 0.8659
+          },
+          {
+            "date": "20",
+            "target": 0.9,
+            "actual": 0.8347
+          },
+          {
+            "date": "21",
+            "target": 0.9,
+            "actual": 0.8335
+          },
+          {
+            "date": "22",
+            "target": 0.9,
+            "actual": 0.881
+          },
+          {
+            "date": "23",
+            "target": 0.9,
+            "actual": 0.9103
+          },
+          {
+            "date": "24",
+            "target": 0.9,
+            "actual": 0.8577
+          },
+          {
+            "date": "25",
+            "target": 0.9,
+            "actual": 0.8502
+          },
+          {
+            "date": "26",
+            "target": 0.9,
+            "actual": 0.9029
+          },
+          {
+            "date": "27",
+            "target": 0.9,
+            "actual": 0.8337
+          },
+          {
+            "date": "28",
+            "target": 0.9,
+            "actual": 0.8309
+          }
+        ]
+      },
+      "headline": {
+        "month": "M12",
+        "target": 0.9,
+        "actual": 0
+      }
+    },
+    {
+      "slug": "kpi-lost-detail",
+      "title": "Lost Detail",
+      "type": "detail_records",
+      "unit": "number",
+      "icon": "table",
+      "sourceFile": "kpi-lost-detail.html",
+      "data": {
+        "summaryData": {
+          "month": "M2",
+          "target": 1,
+          "actual": 0
+        },
+        "monthlyData": [
+          {
+            "month": "M1",
+            "target": 1,
+            "actual": 0
+          },
+          {
+            "month": "M2",
+            "target": 1,
+            "actual": 0
+          },
+          {
+            "month": "M3",
+            "target": 1,
+            "actual": null
+          },
+          {
+            "month": "M4",
+            "target": 1,
+            "actual": null
+          },
+          {
+            "month": "M5",
+            "target": 1,
+            "actual": null
+          },
+          {
+            "month": "M6",
+            "target": 1,
+            "actual": null
+          },
+          {
+            "month": "M7",
+            "target": 1,
+            "actual": null
+          },
+          {
+            "month": "M8",
+            "target": 1,
+            "actual": null
+          },
+          {
+            "month": "M9",
+            "target": 1,
+            "actual": null
+          },
+          {
+            "month": "M10",
+            "target": 1,
+            "actual": null
+          },
+          {
+            "month": "M11",
+            "target": 1,
+            "actual": null
+          },
+          {
+            "month": "M12",
+            "target": 1,
+            "actual": null
+          }
+        ],
+        "detailRecords": [
+          {
+            "cause": "พัสดุตกหล่น(ฮับไปฮับ)",
+            "status": "ร้องเรียนสำเร็จ 申诉成功"
+          },
+          {
+            "cause": "พัสดุตกหล่น(ฮับไปฮับ)",
+            "status": "ร้องเรียนสำเร็จ 申诉成功"
+          },
+          {
+            "cause": "พัสดุตกหล่น(ฮับไปฮับ)",
+            "status": "ร้องเรียนสำเร็จ 申诉成功"
+          },
+          {
+            "cause": "พัสดุตกหล่น(ฮับไปฮับ)",
+            "status": "ร้องเรียนสำเร็จ 申诉成功"
+          },
+          {
+            "cause": "พัสดุตกหล่น(ฮับไปฮับ)",
+            "status": "ร้องเรียนสำเร็จ 申诉成功"
+          },
+          {
+            "cause": "พัสดุตกหล่น(ฮับไปฮับ)",
+            "status": "ร้องเรียนสำเร็จ 申诉成功"
+          },
+          {
+            "cause": "พัสดุตกหล่น(ฮับไปฮับ)",
+            "status": "ร้องเรียนสำเร็จ 申诉成功"
+          },
+          {
+            "cause": "พัสดุตกหล่น(ฮับไปฮับ)",
+            "status": "ร้องเรียนสำเร็จ 申诉成功"
+          },
+          {
+            "cause": "พัสดุตกหล่น(ฮับไปฮับ)",
+            "status": "ร้องเรียนสำเร็จ 申诉成功"
+          },
+          {
+            "cause": "พัสดุตกหล่น(ฮับไปฮับ)",
+            "status": "ร้องเรียนสำเร็จ 申诉成功"
+          },
+          {
+            "cause": "พัสดุตกหล่น(ฮับไปฮับ)",
+            "status": "ร้องเรียนสำเร็จ 申诉成功"
+          },
+          {
+            "cause": "พัสดุตกหล่น(ฮับไปฮับ)",
+            "status": "ร้องเรียนสำเร็จ 申诉成功"
+          },
+          {
+            "cause": "หายภายในคลังสาขาปลายทาง",
+            "status": "ร้องเรียนสำเร็จ 申诉成功"
+          },
+          {
+            "cause": "พัสดุตกหล่น(ฮับไปฮับ)",
+            "status": "ร้องเรียนสำเร็จ 申诉成功"
+          },
+          {
+            "cause": "พัสดุตกหล่น(ฮับไปฮับ)",
+            "status": "ร้องเรียนสำเร็จ 申诉成功"
+          }
+        ]
+      },
+      "headline": {
+        "month": "M2",
+        "target": 1,
+        "actual": 0
+      }
+    },
+    {
+      "slug": "kpi-transport-cost",
+      "title": "Transport Cost",
+      "type": "kpi_monthly_quarterly",
+      "unit": "currency",
+      "icon": "coins",
+      "sourceFile": "kpi-transport-cost.html",
+      "data": {
+        "monthlyData": [
+          {
+            "month": "M1",
+            "cost": 5053385,
+            "target": 6.35597597558962,
+            "actual": 7.903212185002088
+          },
+          {
+            "month": "M2",
+            "cost": 4478286,
+            "target": 6.03817717681014,
+            "actual": 7.76296894664036
+          },
+          {
+            "month": "M3",
+            "cost": 0,
+            "target": 6.03817717681014,
+            "actual": 0
+          },
+          {
+            "month": "M4",
+            "cost": 0,
+            "target": 6.22885645607783,
+            "actual": 0
+          },
+          {
+            "month": "M5",
+            "cost": 0,
+            "target": 6.22885645607783,
+            "actual": 0
+          },
+          {
+            "month": "M6",
+            "cost": 0,
+            "target": 6.22885645607783,
+            "actual": 0
+          },
+          {
+            "month": "M7",
+            "cost": 0,
+            "target": 6.35597597558962,
+            "actual": 0
+          },
+          {
+            "month": "M8",
+            "cost": 0,
+            "target": 6.35597597558962,
+            "actual": 0
+          },
+          {
+            "month": "M9",
+            "cost": 0,
+            "target": 6.35597597558962,
+            "actual": 0
+          },
+          {
+            "month": "M10",
+            "cost": 0,
+            "target": 6.35597597558962,
+            "actual": 0
+          },
+          {
+            "month": "M11",
+            "cost": 0,
+            "target": 6.35597597558962,
+            "actual": 0
+          },
+          {
+            "month": "M12",
+            "cost": 0,
+            "target": 6.35597597558962,
+            "actual": 0
+          }
+        ],
+        "quarterlyData": [
+          {
+            "quarter": "Q1",
+            "cost": 9531671,
+            "target": 6.03817717681014,
+            "actual": 7.83669561542629
+          },
+          {
+            "quarter": "Q2",
+            "cost": 0,
+            "target": 6.22885645607783,
+            "actual": 0
+          },
+          {
+            "quarter": "Q3",
+            "cost": 0,
+            "target": 6.35597597558962,
+            "actual": 0
+          },
+          {
+            "quarter": "Q4",
+            "cost": 0,
+            "target": 6.35597597558962,
+            "actual": 0
+          }
+        ]
+      },
+      "headline": {
+        "month": "M12",
+        "cost": 0,
+        "target": 6.35597597558962,
+        "actual": 0
+      }
+    },
+    {
+      "slug": "kpi-productivity",
+      "title": "ประสิทธิภาพรายบุคคล",
+      "type": "kpi_daily_monthly",
+      "unit": "number",
+      "icon": "gauge",
+      "sourceFile": "kpi-productivity.html",
+      "data": {
+        "monthlyData": [
+          {
+            "month": "M1",
+            "target": 359.22655470429,
+            "actual": 280.0378640776699
+          },
+          {
+            "month": "M2",
+            "target": 334.368559106282,
+            "actual": 284.706740442656
+          },
+          {
+            "month": "M3",
+            "target": 330.281616060744,
+            "actual": 0
+          },
+          {
+            "month": "M4",
+            "target": 315.176695865725,
+            "actual": 0
+          },
+          {
+            "month": "M5",
+            "target": 326.571902456654,
+            "actual": 0
+          },
+          {
+            "month": "M6",
+            "target": 330.083530168286,
+            "actual": 0
+          },
+          {
+            "month": "M7",
+            "target": 328.226945420895,
+            "actual": 0
+          },
+          {
+            "month": "M8",
+            "target": 323.652967966944,
+            "actual": 0
+          },
+          {
+            "month": "M9",
+            "target": 326.953451255379,
+            "actual": 0
+          },
+          {
+            "month": "M10",
+            "target": 323.549312197947,
+            "actual": 0
+          },
+          {
+            "month": "M11",
+            "target": 333.042455849374,
+            "actual": 0
+          },
+          {
+            "month": "M12",
+            "target": 334.957089898576,
+            "actual": 0
+          }
+        ],
+        "dailyData": [
+          {
+            "date": "1",
+            "target": 334.37,
+            "actual": 295.58
+          },
+          {
+            "date": "2",
+            "target": 334.37,
+            "actual": 288.24
+          },
+          {
+            "date": "3",
+            "target": 334.37,
+            "actual": 323.28
+          },
+          {
+            "date": "4",
+            "target": 334.37,
+            "actual": 286.18
+          },
+          {
+            "date": "5",
+            "target": 334.37,
+            "actual": 257.09
+          },
+          {
+            "date": "6",
+            "target": 334.37,
+            "actual": 270.26
+          },
+          {
+            "date": "7",
+            "target": 334.37,
+            "actual": 298.45
+          },
+          {
+            "date": "8",
+            "target": 334.37,
+            "actual": 284.71
+          },
+          {
+            "date": "9",
+            "target": 334.37,
+            "actual": 275.05
+          },
+          {
+            "date": "10",
+            "target": 334.37,
+            "actual": 367.19
+          },
+          {
+            "date": "11",
+            "target": 334.37,
+            "actual": 311.64
+          },
+          {
+            "date": "12",
+            "target": 334.37,
+            "actual": 332.34
+          },
+          {
+            "date": "13",
+            "target": 334.37,
+            "actual": 271.76
+          },
+          {
+            "date": "14",
+            "target": 334.37,
+            "actual": 259.61
+          },
+          {
+            "date": "15",
+            "target": 334.37,
+            "actual": 259.88
+          },
+          {
+            "date": "16",
+            "target": 334.37,
+            "actual": 269.02
+          },
+          {
+            "date": "17",
+            "target": 334.37,
+            "actual": 301.51
+          },
+          {
+            "date": "18",
+            "target": 334.37,
+            "actual": 290.24
+          },
+          {
+            "date": "19",
+            "target": 334.37,
+            "actual": 282.05
+          },
+          {
+            "date": "20",
+            "target": 334.37,
+            "actual": 268.42
+          },
+          {
+            "date": "21",
+            "target": 334.37,
+            "actual": 254.47
+          },
+          {
+            "date": "22",
+            "target": 334.37,
+            "actual": 225.07
+          },
+          {
+            "date": "23",
+            "target": 334.37,
+            "actual": 277.25
+          },
+          {
+            "date": "24",
+            "target": 334.37,
+            "actual": 288.96
+          },
+          {
+            "date": "25",
+            "target": 334.37,
+            "actual": 289.47
+          },
+          {
+            "date": "26",
+            "target": 334.37,
+            "actual": 278.25
+          },
+          {
+            "date": "27",
+            "target": 334.37,
+            "actual": 295.73
+          },
+          {
+            "date": "28",
+            "target": 334.37,
+            "actual": 257.44
+          }
+        ]
+      },
+      "headline": {
+        "month": "M12",
+        "target": 334.957089898576,
+        "actual": 0
+      }
+    },
+    {
+      "slug": "kpi-scan-out",
+      "title": "สแกนพัสดุขาออก",
+      "type": "kpi_daily_monthly",
+      "unit": "percent",
+      "icon": "scan-line",
+      "sourceFile": "kpi-scan-out.html",
+      "data": {
+        "monthlyData": [
+          {
+            "month": "M1",
+            "target": 0.999,
+            "actual": 0.9994
+          },
+          {
+            "month": "M2",
+            "target": 0.999,
+            "actual": 0.9993
+          },
+          {
+            "month": "M3",
+            "target": 0.999,
+            "actual": null
+          },
+          {
+            "month": "M4",
+            "target": 0.999,
+            "actual": null
+          },
+          {
+            "month": "M5",
+            "target": 0.999,
+            "actual": null
+          },
+          {
+            "month": "M6",
+            "target": 0.999,
+            "actual": null
+          },
+          {
+            "month": "M7",
+            "target": 0.999,
+            "actual": null
+          },
+          {
+            "month": "M8",
+            "target": 0.999,
+            "actual": null
+          },
+          {
+            "month": "M9",
+            "target": 0.999,
+            "actual": null
+          },
+          {
+            "month": "M10",
+            "target": 0.999,
+            "actual": null
+          },
+          {
+            "month": "M11",
+            "target": 0.999,
+            "actual": null
+          },
+          {
+            "month": "M12",
+            "target": 0.999,
+            "actual": null
+          }
+        ],
+        "dailyData": [
+          {
+            "date": "1",
+            "target": 0.999,
+            "actual": 0.9993
+          },
+          {
+            "date": "2",
+            "target": 0.999,
+            "actual": 0.9992
+          },
+          {
+            "date": "3",
+            "target": 0.999,
+            "actual": 0.9995
+          },
+          {
+            "date": "4",
+            "target": 0.999,
+            "actual": 0.9991
+          },
+          {
+            "date": "5",
+            "target": 0.999,
+            "actual": 0.9992
+          },
+          {
+            "date": "6",
+            "target": 0.999,
+            "actual": 0.9993
+          },
+          {
+            "date": "7",
+            "target": 0.999,
+            "actual": 0.9992
+          },
+          {
+            "date": "8",
+            "target": 0.999,
+            "actual": 0.9991
+          },
+          {
+            "date": "9",
+            "target": 0.999,
+            "actual": 0.9988
+          },
+          {
+            "date": "10",
+            "target": 0.999,
+            "actual": 0.9993
+          },
+          {
+            "date": "11",
+            "target": 0.999,
+            "actual": 0.9997
+          },
+          {
+            "date": "12",
+            "target": 0.999,
+            "actual": 0.9996
+          },
+          {
+            "date": "13",
+            "target": 0.999,
+            "actual": 0.9997
+          },
+          {
+            "date": "14",
+            "target": 0.999,
+            "actual": 0.9997
+          },
+          {
+            "date": "15",
+            "target": 0.999,
+            "actual": 0.9993
+          },
+          {
+            "date": "16",
+            "target": 0.999,
+            "actual": 0.9993
+          },
+          {
+            "date": "17",
+            "target": 0.999,
+            "actual": 0.9992
+          },
+          {
+            "date": "18",
+            "target": 0.999,
+            "actual": 0.9992
+          },
+          {
+            "date": "19",
+            "target": 0.999,
+            "actual": 0.9994
+          },
+          {
+            "date": "20",
+            "target": 0.999,
+            "actual": 0.9995
+          },
+          {
+            "date": "21",
+            "target": 0.999,
+            "actual": 0.9992
+          },
+          {
+            "date": "22",
+            "target": 0.999,
+            "actual": 0.9996
+          },
+          {
+            "date": "23",
+            "target": 0.999,
+            "actual": 0.9999
+          },
+          {
+            "date": "24",
+            "target": 0.999,
+            "actual": 0.9998
+          },
+          {
+            "date": "25",
+            "target": 0.999,
+            "actual": 0.9996
+          },
+          {
+            "date": "26",
+            "target": 0.999,
+            "actual": 0.9984
+          },
+          {
+            "date": "27",
+            "target": 0.999,
+            "actual": 0.9984
+          },
+          {
+            "date": "28",
+            "target": 0.999,
+            "actual": 0.9994
+          }
+        ],
+        "summaryData": {
+          "month": "M2",
+          "target": 0.999,
+          "actual": 0.9993
+        }
+      },
+      "headline": {
+        "month": "M2",
+        "target": 0.999,
+        "actual": 0.9993
+      }
+    },
+    {
+      "slug": "kpi-scan-in",
+      "title": "สแกนพัสดุขาเข้า",
+      "type": "kpi_daily_monthly",
+      "unit": "percent",
+      "icon": "scan-search",
+      "sourceFile": "kpi-scan-in.html",
+      "data": {
+        "monthlyData": [
+          {
+            "month": "M1",
+            "target": 0.996,
+            "actual": 0.9935
+          },
+          {
+            "month": "M2",
+            "target": 0.996,
+            "actual": 0.9952
+          },
+          {
+            "month": "M3",
+            "target": 0.996,
+            "actual": null
+          },
+          {
+            "month": "M4",
+            "target": 0.996,
+            "actual": null
+          },
+          {
+            "month": "M5",
+            "target": 0.996,
+            "actual": null
+          },
+          {
+            "month": "M6",
+            "target": 0.996,
+            "actual": null
+          },
+          {
+            "month": "M7",
+            "target": 0.996,
+            "actual": null
+          },
+          {
+            "month": "M8",
+            "target": 0.996,
+            "actual": null
+          },
+          {
+            "month": "M9",
+            "target": 0.996,
+            "actual": null
+          },
+          {
+            "month": "M10",
+            "target": 0.996,
+            "actual": null
+          },
+          {
+            "month": "M11",
+            "target": 0.996,
+            "actual": null
+          },
+          {
+            "month": "M12",
+            "target": 0.996,
+            "actual": null
+          }
+        ],
+        "dailyData": [
+          {
+            "date": "1",
+            "target": 0.996,
+            "actual": 0.9963
+          },
+          {
+            "date": "2",
+            "target": 0.996,
+            "actual": 0.9967
+          },
+          {
+            "date": "3",
+            "target": 0.996,
+            "actual": 0.9921
+          },
+          {
+            "date": "4",
+            "target": 0.996,
+            "actual": 0.9929
+          },
+          {
+            "date": "5",
+            "target": 0.996,
+            "actual": 0.9945
+          },
+          {
+            "date": "6",
+            "target": 0.996,
+            "actual": 0.9936
+          },
+          {
+            "date": "7",
+            "target": 0.996,
+            "actual": 0.9949
+          },
+          {
+            "date": "8",
+            "target": 0.996,
+            "actual": 0.9926
+          },
+          {
+            "date": "9",
+            "target": 0.996,
+            "actual": 0.9958
+          },
+          {
+            "date": "10",
+            "target": 0.996,
+            "actual": 0.9952
+          },
+          {
+            "date": "11",
+            "target": 0.996,
+            "actual": 0.9958
+          },
+          {
+            "date": "12",
+            "target": 0.996,
+            "actual": 0.9965
+          },
+          {
+            "date": "13",
+            "target": 0.996,
+            "actual": 0.9974
+          },
+          {
+            "date": "14",
+            "target": 0.996,
+            "actual": 0.9954
+          },
+          {
+            "date": "15",
+            "target": 0.996,
+            "actual": 0.994
+          },
+          {
+            "date": "16",
+            "target": 0.996,
+            "actual": 0.9979
+          },
+          {
+            "date": "17",
+            "target": 0.996,
+            "actual": 0.9965
+          },
+          {
+            "date": "18",
+            "target": 0.996,
+            "actual": 0.9942
+          },
+          {
+            "date": "19",
+            "target": 0.996,
+            "actual": 0.9966
+          },
+          {
+            "date": "20",
+            "target": 0.996,
+            "actual": 0.9974
+          },
+          {
+            "date": "21",
+            "target": 0.996,
+            "actual": 0.9924
+          },
+          {
+            "date": "22",
+            "target": 0.996,
+            "actual": 0.9889
+          },
+          {
+            "date": "23",
+            "target": 0.996,
+            "actual": 0.9973
+          },
+          {
+            "date": "24",
+            "target": 0.996,
+            "actual": 0.9971
+          },
+          {
+            "date": "25",
+            "target": 0.996,
+            "actual": 0.9954
+          },
+          {
+            "date": "26",
+            "target": 0.996,
+            "actual": 0.9962
+          },
+          {
+            "date": "27",
+            "target": 0.996,
+            "actual": 0.9973
+          },
+          {
+            "date": "28",
+            "target": 0.996,
+            "actual": 0.9948
+          }
+        ],
+        "summaryData": {
+          "month": "M2",
+          "target": 0.996,
+          "actual": 0.9952
+        }
+      },
+      "headline": {
+        "month": "M2",
+        "target": 0.996,
+        "actual": 0.9952
+      }
+    },
+    {
+      "slug": "outstanding-actions",
+      "title": "Outstanding Actions",
+      "type": "action_list",
+      "unit": "text",
+      "icon": "list-todo",
+      "sourceFile": "outstanding-actions.html",
+      "data": {
+        "failedKpis": [
+          {
+            "name": "อัตราการลงรถทันเวลา / 卸车及时率",
+            "target": "99.00%",
+            "actual": "94.73%",
+            "gap": "-4.27%",
+            "priority": "เร่งด่วน (Critical)"
+          },
+          {
+            "name": "ต้นทุนพัสดุรายชิ้นขนส่ง / 单票运力成本",
+            "target": "6.038",
+            "actual": "7.763",
+            "gap": "+1.72",
+            "priority": "สำคัญ (High)"
+          },
+          {
+            "name": "อัตราประสิทธิภาพรายบุคคล / 人均效能",
+            "target": "334.37",
+            "actual": "284.71",
+            "gap": "-49.66",
+            "priority": "สำคัญ (High)"
+          },
+          {
+            "name": "อัตราคงคลัง / 留仓",
+            "target": "0.90%",
+            "actual": "1.72%",
+            "gap": "+0.82%",
+            "priority": "ปานกลาง (Medium)"
+          },
+          {
+            "name": "ต้นทุนพัสดุรายชิ้น / 单票运力成本",
+            "target": "2.763",
+            "actual": "3.215",
+            "gap": "+0.45",
+            "priority": "ปานกลาง (Medium)"
+          },
+          {
+            "name": "อัตราการบรรทุก / 装载率",
+            "target": "90.00%",
+            "actual": "88.15%",
+            "gap": "-1.85%",
+            "priority": "ปานกลาง (Medium)"
+          },
+          {
+            "name": "อัตราการปล่อยรถตรงเวลา / 发车准点率",
+            "target": "99.50%",
+            "actual": "98.70%",
+            "gap": "-0.80%",
+            "priority": "เฝ้าระวัง (Low)"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "kpi-transport-cost-detail",
+      "title": "Transport Cost Detail",
+      "type": "detail_transport_breakdown",
+      "unit": "currency",
+      "icon": "table",
+      "sourceFile": "kpi-transport-cost-detail.html",
+      "data": {
+        "transportCosts": [
+          {
+            "type": "LH",
+            "amount": 2923442
+          },
+          {
+            "type": "FD",
+            "amount": 1023364
+          },
+          {
+            "type": "DD1",
+            "amount": 527380
+          },
+          {
+            "type": "Special Cost",
+            "amount": 4100
+          },
+          {
+            "type": "KA",
+            "amount": 0
+          },
+          {
+            "type": "LUMSUM",
+            "amount": 0
+          },
+          {
+            "type": "ค่ารอลงงาน",
+            "amount": 0
+          }
+        ]
+      }
+    }
+  ]
+}

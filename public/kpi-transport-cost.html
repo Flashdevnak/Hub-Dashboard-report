@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BNAK Performance 2026 - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Noto+Sans+Thai:wght@400;600;700&family=Kanit:wght@300;400;500;600&display=swap');
+        
+        :root {
+            --flash-yellow: #FACC15;
+            --flash-black: #171717;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Sans Thai', 'Kanit', sans-serif;
+            background-color: #f8fafc;
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar Styles (Matched with index.html) */
+        .sidebar-item {
+            padding: 10px 16px;
+            border-radius: 8px;
+            margin: 2px 8px;
+            transition: all 0.2s;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .sidebar-item:hover {
+            background: #f1f5f9;
+        }
+        .sidebar-active {
+            background: #fefce8;
+            border-left: 4px solid var(--flash-yellow);
+            font-weight: 600;
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+
+        /* Table & Content Styles */
+        table { border-spacing: 0; width: 100%; table-layout: fixed; border-collapse: collapse; }
+        th { font-size: 8.5px; padding: 6px 4px; border-bottom: 2px solid #f3f4f6; text-transform: uppercase; color: #6b7280; }
+        td { font-size: 9.5px; padding: 4px 4px; border-bottom: 1px solid #f9fafb; vertical-align: middle; }
+        
+        .tag-best { background-color: #171717; color: #FACC15; padding: 1px 3px; border-radius: 2px; font-size: 7px; font-weight: bold; margin-left: 4px; }
+        .tag-worst { background-color: #ef4444; color: white; padding: 1px 3px; border-radius: 2px; font-size: 7px; font-weight: bold; margin-left: 4px; }
+        
+        .chart-container { position: relative; height: 100%; width: 100%; }
+        .cost-number { font-size: 9px; font-weight: bold; color: #4b5563; }
+        .gradient-bg { background: linear-gradient(180deg, rgba(250, 204, 21, 0.1) 0%, rgba(250, 204, 21, 0.05) 50%, rgba(250, 204, 21, 0) 100%); }
+    </style>
+</head>
+<body style="opacity:0;transition:opacity .2s ease">
+
+    <aside class="w-full lg:w-64 bg-white border-r border-gray-200 flex flex-col shrink-0 lg:sticky lg:top-0 lg:h-screen z-50">
+        <div class="p-5 border-b flex justify-between items-center lg:block">
+            <div>
+                <h2 class="text-xl font-black tracking-tighter text-slate-900 uppercase italic" data-bnak-app-name>BNAK Performance 2026</h2>
+                <p class="text-[10px] text-gray-400 font-bold uppercase tracking-tight" data-bnak-brand>Flash Express</p>
+            </div>
+            <button class="lg:hidden p-2 text-gray-500" onclick="document.getElementById('mobile-nav').classList.toggle('hidden')">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+
+        <div id="mobile-nav" class="hidden lg:flex flex-col flex-1 overflow-y-auto custom-scrollbar py-2 text-sm">
+            <a href="index.html" class="sidebar-item">
+                <div class="text-slate-800 font-medium">หน้าหลัก Dashboard</div>
+                <div class="text-[10px] text-gray-500 uppercase font-bold">สรุปภาพรวม</div>
+            </a>
+
+            <div class="px-4 py-2 text-[10px] font-bold text-gray-400 uppercase mt-2 tracking-widest">ประสิทธิภาพปฏิบัติการ</div>
+            <a href="kpi-productivity.html" class="sidebar-item text-slate-700 hover:text-slate-900">ประสิทธิภาพรายบุคคล</a>
+            <a href="kpi-loading.html" class="sidebar-item text-slate-700 hover:text-slate-900">อัตราการบรรทุกพัสดุ</a>
+
+            <div class="px-4 py-2 text-[10px] font-bold text-gray-400 uppercase mt-2 tracking-widest">คุณภาพและพัสดุคงคลัง</div>
+            <div onclick="toggleMenu('loss-sub')" class="sidebar-item flex justify-between items-center text-slate-700 hover:text-slate-900">
+                <span>อัตราการสูญหาย</span>
+                <svg class="w-3 h-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+            </div>
+            <div id="loss-sub" class="hidden bg-gray-50 mx-2 rounded-lg text-xs">
+                <a href="kpi-lost.html" class="block p-2 pl-8 hover:text-yellow-600">ภาพรวมการสูญหาย</a>
+                <a href="kpi-lost-detail.html" class="block p-2 pl-8 hover:text-yellow-600">รายละเอียดข้อมูล</a>
+            </div>
+
+            <div onclick="toggleMenu('damage-sub')" class="sidebar-item flex justify-between items-center text-slate-700 hover:text-slate-900">
+                <span>อัตราการเสียหาย</span>
+                <svg class="w-3 h-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+            </div>
+            <div id="damage-sub" class="hidden bg-gray-50 mx-2 rounded-lg text-xs">
+                <a href="kpi-damage.html" class="block p-2 pl-8 hover:text-yellow-600">ภาพรวมการเสียหาย</a>
+                <a href="kpi-damage-detail.html" class="block p-2 pl-8 hover:text-yellow-600">รายละเอียดข้อมูล</a>
+            </div>
+            <a href="kpi-inventory.html" class="sidebar-item text-slate-700">อัตราสินค้าคงคลัง</a>
+
+            <div class="px-4 py-2 text-[10px] font-bold text-gray-400 uppercase mt-2 tracking-widest">วิเคราะห์ประสิทธิภาพต้นทุน</div>
+            <div onclick="toggleMenu('cost-sub')" class="sidebar-item flex justify-between items-center text-slate-700 hover:text-slate-900">
+                <span>ต้นทุนพัสดุรายชิ้น</span>
+                <svg class="w-3 h-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+            </div>
+            <div id="cost-sub" class="hidden bg-gray-50 mx-2 rounded-lg text-xs">
+                <a href="kpi-cost-per-piece.html" class="block p-2 pl-8 hover:text-yellow-600">ภาพรวมต้นทุนดำเนินงาน</a>
+                <a href="kpi-cost-per-piece-detail.html" class="block p-2 pl-8 hover:text-yellow-600">วิเคราะห์ข้อมูลต้นทุน</a>
+            </div>
+
+            <div onclick="toggleMenu('transport-cost-sub')" class="sidebar-item sidebar-active flex justify-between items-center">
+                <span>ต้นทุนขนส่งรายชิ้น</span>
+                <svg class="w-3 h-3 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+            </div>
+            <div id="transport-cost-sub" class="bg-gray-50 mx-2 rounded-lg text-xs">
+                <a href="kpi-transport-cost.html" class="block p-2 pl-8 font-bold text-yellow-600">ภาพรวมต้นทุนขนส่ง</a>
+                <a href="kpi-transport-cost-detail.html" class="block p-2 pl-8 hover:text-yellow-600">วิเคราะห์ข้อมูลขนส่ง</a>
+            </div>
+
+            <div class="px-4 py-2 text-[10px] font-bold text-gray-400 uppercase mt-2 tracking-widest">ประสิทธิภาพเวลาเดินรถ</div>
+            <a href="kpi-ontime-depart.html" class="sidebar-item text-slate-700">ปล่อยรถตรงเวลา</a>
+            <a href="kpi-ontime-arrival.html" class="sidebar-item text-slate-700">ลงรถทันเวลา</a>
+            <a href="kpi-scan-out.html" class="sidebar-item text-slate-700">สแกนพัสดุขาออก</a>
+            <a href="kpi-scan-in.html" class="sidebar-item text-slate-700">สแกนพัสดุขาเข้า</a>
+
+            <div class="mt-auto p-4 bg-slate-50/50">
+                <a href="outstanding-actions.html" class="block text-xs font-bold text-slate-400 hover:text-yellow-600 mb-2 uppercase tracking-tight">สิ่งที่ต้องดำเนินการ</a>
+                <a href="need-support.html" class="block text-xs font-bold text-red-500 hover:text-red-600 uppercase">ขอรับการสนับสนุน</a>
+            </div>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col p-4 md:p-6 overflow-hidden bg-slate-50">
+        
+        <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4 shrink-0">
+            <div>
+                <nav class="text-[10px] font-bold text-yellow-600 uppercase mb-1 tracking-widest">Performance Analysis Dashboard</nav>
+                <h1 class="text-2xl font-black text-slate-900 leading-tight uppercase">
+                    TRANSPORTATION COSTS <span class="text-yellow-500">2026</span>
+                </h1>
+                <p class="text-xs text-slate-500 font-medium mt-1 uppercase tracking-wider italic">รายงานวิเคราะห์ประสิทธิภาพต้นทุนขนส่ง (M1 - M12)</p>
+            </div>
+            <div id="bnak-user-badge" class="flex items-center gap-3 bg-white p-2 rounded-xl border border-slate-200 shadow-sm">
+                <div class="text-right">
+                    <p class="text-[10px] font-bold text-gray-400 uppercase leading-none">สถานะรายงาน</p>
+                    <p class="text-sm font-black text-slate-800 uppercase tracking-tighter">SUMMARY KPI</p>
+                </div>
+                <div class="w-10 h-10 rounded-lg bg-yellow-400 flex items-center justify-center text-white shadow-inner">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                </div>
+            </div>
+        </header>
+
+        <div class="w-full grid grid-cols-4 gap-4 mb-5 shrink-0">
+            <div class="bg-white border border-slate-200 p-3 rounded-2xl shadow-sm text-center">
+                <p class="text-[12px] font-bold text-slate-400 uppercase tracking-tight mb-1">เป้าหมาย</p>
+                <h2 class="text-xl font-black text-slate-800" id="yearTarget">6.04</h2>
+            </div>
+            <div class="bg-white border border-slate-200 p-3 rounded-2xl shadow-sm text-center">
+                <p class="text-[12px] font-bold text-slate-400 uppercase tracking-tight mb-1">ผลงานจริง</p>
+                <h2 class="text-xl font-black text-slate-800" id="yearActual">7.76</h2>
+            </div>
+            <div class="bg-red-50 border border-red-100 p-3 rounded-2xl shadow-sm text-red-600 text-center">
+                <p class="text-[12px] font-bold uppercase text-red-400 tracking-tight mb-1">GAP Analysis</p>
+                <h2 class="text-xl font-black" id="yearGap">+1.72</h2>
+            </div>
+            <div class="bg-slate-900 text-white p-3 rounded-2xl shadow-lg border-b-4 border-yellow-400 text-center">
+                <p class="text-[12px] font-bold text-yellow-400 uppercase tracking-tight mb-1">Success Rate</p>
+                <h2 class="text-xl font-black text-yellow-400" id="yearControl">77.78%</h2>
+            </div>
+        </div>
+
+        <div class="w-full grid grid-cols-12 gap-5 flex-grow overflow-hidden">
+            <div class="col-span-12 lg:col-span-7 flex flex-col gap-4 overflow-hidden">
+                <div class="bg-white border border-slate-200 p-4 rounded-3xl shadow-sm flex flex-col overflow-hidden">
+                    <h3 class="text-[10px] font-black mb-3 flex items-center uppercase tracking-wider text-slate-800 shrink-0">
+                        <span class="w-1.5 h-4 bg-yellow-400 mr-2 rounded-full"></span> Monthly Performance Detail
+                    </h3>
+                    <div class="overflow-y-auto custom-scrollbar flex-1">
+                        <table>
+                            <thead class="bg-black text-white uppercase text-[8px] sticky top-0 z-10 font-black">
+                                <tr>
+                                    <th style="width: 15%; text-align: left;" class="rounded-l-lg pl-4 text-white">เดือน</th>
+                                    <th style="width: 20%; text-align: left;" class="text-white">ข้อมูลดิบ/งบ</th>
+                                    <th style="width: 15%; text-align: left;" class="text-white">เป้าหมาย</th>
+                                    <th style="width: 15%; text-align: left;" class="text-white">ผลงานจริง</th>
+                                    <th style="width: 20%; text-align: center;" class="text-white">สำเร็จ(%)</th>
+                                    <th style="width: 15%; text-align: right;" class="rounded-r-lg pr-4 text-white">MoM</th>
+                                </tr>
+                            </thead>
+                            <tbody id="monthlyTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="bg-white border border-slate-200 p-4 rounded-3xl shadow-sm flex flex-col shrink-0">
+                    <h3 class="text-[10px] font-black mb-3 flex items-center uppercase tracking-wider text-slate-800">
+                        <span class="w-1.5 h-4 bg-slate-800 mr-2 rounded-full"></span> Quarterly Summary
+                    </h3>
+                    <table>
+                        <thead class="bg-black text-white uppercase text-[8px] font-black">
+                            <tr>
+                                <th style="width: 15%; text-align: left;" class="rounded-l-lg pl-4 text-white">ไตรมาส</th>
+                                <th style="width: 20%; text-align: left;" class="text-white">รวมข้อมูล</th>
+                                <th style="width: 15%; text-align: left;" class="text-white">เป้าหมาย</th>
+                                <th style="width: 15%; text-align: left;" class="text-white">ผลงานจริง</th>
+                                <th style="width: 20%; text-align: center;" class="text-yellow-400 italic">สำเร็จ(%)</th>
+                                <th style="width: 15%; text-align: right;" class="rounded-r-lg pr-4 text-white">QoQ</th>
+                            </tr>
+                        </thead>
+                        <tbody id="quarterlyTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="col-span-12 lg:col-span-5 bg-white border border-slate-200 p-5 rounded-3xl shadow-sm flex flex-col overflow-hidden">
+                <h3 class="text-[10px] font-black mb-4 flex items-center uppercase tracking-wider text-slate-800 shrink-0">
+                    <span class="w-1.5 h-4 bg-gray-400 mr-2 rounded-full"></span> Trend Analysis Graph
+                </h3>
+                <div class="chart-container gradient-bg rounded-2xl p-1 flex-1">
+                    <canvas id="monthlyChart"></canvas>
+                </div>
+                <div class="mt-4 p-4 bg-slate-50 rounded-2xl text-[10px] text-slate-500 italic leading-relaxed font-medium">
+                    * เส้นประแสดงเป้าหมาย และเส้นทึบแสดงผลงานจริงพร้อมระบุจุดวิเคราะห์ Best/Worst Performance
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module">
+import { loadPageRuntime } from "/assets/bnak-runtime.js";
+const runtime = await loadPageRuntime("kpi-transport-cost", { admin: false });
+const pageData = runtime.data || {};
+const headline = runtime.headline || {};
+const monthlyData = (pageData.monthlyData ?? []);
+
+        const quarterlyData = (pageData.quarterlyData ?? []);
+
+        const yearTarget = (headline.target ?? pageData.yearTarget ?? 0);
+        const yearActual = (headline.actual ?? pageData.yearActual ?? 0);
+
+        const formatCost = (cost) => {
+            if (cost >= 1000000) return (cost / 1000000).toFixed(1) + 'M';
+            if (cost >= 1000) return (cost / 1000).toFixed(1) + 'K';
+            return cost.toFixed(0);
+        };
+
+        const renderUI = () => {
+            document.getElementById('yearTarget').textContent = yearTarget.toFixed(2);
+            document.getElementById('yearActual').textContent = yearActual.toFixed(2);
+            document.getElementById('yearGap').textContent = (yearActual - yearTarget > 0 ? "+" : "") + (yearActual - yearTarget).toFixed(2);
+            document.getElementById('yearControl').textContent = ((yearTarget / yearActual) * 100).toFixed(2) + '%';
+
+            // สำหรับตารางเดือน
+            const validMonthlyActuals = monthlyData.filter(d => d.actual > 0).map(d => d.actual);
+            const mMinIdx = validMonthlyActuals.length > 0 ? monthlyData.findIndex(d => d.actual === Math.min(...validMonthlyActuals)) : -1;
+            const mMaxIdx = validMonthlyActuals.length > 0 ? monthlyData.findIndex(d => d.actual === Math.max(...validMonthlyActuals)) : -1;
+
+            const mBody = document.getElementById('monthlyTableBody');
+            mBody.innerHTML = '';
+            monthlyData.forEach((row, i) => {
+                const controlRate = row.actual > 0 ? ((row.target / row.actual) * 100).toFixed(2) : "0.00";
+                let mom = "-";
+                let momClass = "text-slate-300";
+                if (i > 0 && row.actual > 0 && monthlyData[i-1].actual > 0) {
+                    const change = ((row.actual - monthlyData[i-1].actual) / monthlyData[i-1].actual * 100);
+                    if (change < 0) { mom = "▼" + Math.abs(change).toFixed(2) + "%"; momClass = "text-green-600"; }
+                    else if (change > 0) { mom = "▲" + Math.abs(change).toFixed(2) + "%"; momClass = "text-red-500"; }
+                }
+                let tags = (i === mMinIdx && mMinIdx !== -1) ? '<span class="tag-best">BEST</span>' : (i === mMaxIdx && mMaxIdx !== -1 ? '<span class="tag-worst">WORST</span>' : '');
+                mBody.innerHTML += `<tr>
+                    <td class="font-black uppercase pl-4 text-slate-800">${row.month}${tags}</td>
+                    <td class="cost-number text-slate-600 font-bold">${formatCost(row.cost)}</td>
+                    <td class="text-slate-400 font-medium">${row.target.toFixed(2)}</td>
+                    <td class="font-black text-slate-900">${row.actual.toFixed(2)}</td>
+                    <td class="text-center font-black ${row.actual > 0 && row.actual <= row.target ? 'text-green-600' : (row.actual > 0 ? 'text-red-500' : 'text-slate-300')}">${controlRate}%</td>
+                    <td class="text-right font-black pr-4 ${momClass}">${mom}</td>
+                </tr>`;
+            });
+
+            // สำหรับตารางไตรมาส
+            const validQuarterlyActuals = quarterlyData.filter(d => d.actual > 0).map(d => d.actual);
+            const qMinIdx = validQuarterlyActuals.length > 0 ? quarterlyData.findIndex(d => d.actual === Math.min(...validQuarterlyActuals)) : -1;
+            const qMaxIdx = validQuarterlyActuals.length > 0 ? quarterlyData.findIndex(d => d.actual === Math.max(...validQuarterlyActuals)) : -1;
+
+            const qBody = document.getElementById('quarterlyTableBody');
+            qBody.innerHTML = '';
+            quarterlyData.forEach((row, i) => {
+                const controlRate = row.actual > 0 ? ((row.target / row.actual) * 100).toFixed(2) : "0.00";
+                const successClass = row.actual > 0 && row.actual <= row.target ? 'text-green-600' : (row.actual > 0 ? 'text-red-500' : 'text-slate-300');
+                
+                let qoq = "-";
+                let qoqClass = "text-slate-300";
+                if (i > 0 && row.actual > 0 && quarterlyData[i-1].actual > 0) {
+                    const qChange = ((row.actual - quarterlyData[i-1].actual) / quarterlyData[i-1].actual * 100);
+                    if (qChange < 0) { qoq = "▼" + Math.abs(qChange).toFixed(1) + "%"; qoqClass = "text-green-600"; }
+                    else if (qChange > 0) { qoq = "▲" + Math.abs(qChange).toFixed(1) + "%"; qoqClass = "text-red-500"; }
+                }
+                
+                let qTags = (i === qMinIdx && qMinIdx !== -1) ? '<span class="tag-best">BEST</span>' : (i === qMaxIdx && qMaxIdx !== -1 ? '<span class="tag-worst">WORST</span>' : '');
+                
+                qBody.innerHTML += `<tr>
+                    <td class="font-black text-slate-800 uppercase pl-4">${row.quarter}${qTags}</td>
+                    <td class="cost-number text-slate-600 font-bold">${formatCost(row.cost)}</td>
+                    <td class="text-slate-400 font-medium">${row.target.toFixed(2)}</td>
+                    <td class="font-black text-slate-900">${row.actual.toFixed(2)}</td>
+                    <td class="text-center font-black italic ${successClass}">${controlRate}%</td>
+                    <td class="text-right font-black pr-4 ${qoqClass}">${qoq}</td>
+                </tr>`;
+            });
+        };
+
+        window.onload = function() {
+            renderUI();
+            Chart.register(ChartDataLabels);
+            const ctx = document.getElementById('monthlyChart').getContext('2d');
+            const yellowGradient = ctx.createLinearGradient(0, 0, 0, 400);
+            yellowGradient.addColorStop(0, 'rgba(250, 204, 21, 0.4)');
+            yellowGradient.addColorStop(0.5, 'rgba(250, 204, 21, 0.2)');
+            yellowGradient.addColorStop(1, 'rgba(250, 204, 21, 0)');
+            
+            const validMonthlyActuals = monthlyData.filter(d => d.actual > 0).map(d => d.actual);
+            const mMinIdx = validMonthlyActuals.length > 0 ? monthlyData.findIndex(d => d.actual === Math.min(...validMonthlyActuals)) : -1;
+            const mMaxIdx = validMonthlyActuals.length > 0 ? monthlyData.findIndex(d => d.actual === Math.max(...validMonthlyActuals)) : -1;
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: monthlyData.map(d => d.month),
+                    datasets: [
+                        {
+                            label: 'เป้าหมาย',
+                            data: monthlyData.map(d => d.target),
+                            borderColor: '#171717',
+                            backgroundColor: 'rgba(23, 23, 23, 0.1)',
+                            borderWidth: 3, borderDash: [5, 5],
+                            pointRadius: 5, pointBackgroundColor: '#171717',
+                            pointBorderColor: '#ffffff', pointBorderWidth: 2,
+                            fill: true, tension: 0.3, datalabels: { display: false }
+                        },
+                        {
+                            label: 'ผลงานจริง',
+                            data: monthlyData.map(d => d.actual > 0 ? d.actual : null),
+                            borderColor: '#FACC15',
+                            backgroundColor: yellowGradient,
+                            borderWidth: 3,
+                            pointRadius: monthlyData.map((d, i) => (i === mMinIdx || i === mMaxIdx ? 8 : 5)),
+                            pointBackgroundColor: monthlyData.map((d, i) => (i === mMinIdx ? '#10B981' : (i === mMaxIdx ? '#ef4444' : '#FACC15'))),
+                            pointBorderColor: monthlyData.map((d, i) => (i === mMinIdx || i === mMaxIdx ? '#ffffff' : '#171717')),
+                            pointBorderWidth: 2, pointHoverRadius: 9,
+                            fill: true, tension: 0.4,
+                            datalabels: { 
+                                anchor: 'end', align: 'top', offset: 5,
+                                font: { weight: 'bold', size: 8 },
+                                backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                                borderRadius: 3, padding: 2,
+                                color: (ctx) => (ctx.dataIndex === mMinIdx ? '#10B981' : (ctx.dataIndex === mMaxIdx ? '#ef4444' : '#171717')),
+                                formatter: (v) => v ? v.toFixed(2) : ''
+                            }
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    interaction: { intersect: false, mode: 'index' },
+                    plugins: { 
+                        legend: { position: 'bottom', labels: { font: { size: 9, family: 'Kanit' }, usePointStyle: true, boxWidth: 10 } },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) label += ': ';
+                                    if (context.parsed.y !== null) {
+                                        label += context.parsed.y.toFixed(2);
+                                        const target = monthlyData[context.dataIndex].target;
+                                        const control = ((target / context.parsed.y) * 100).toFixed(1);
+                                        if (context.datasetIndex === 1) label += ` (ควบคุมได้ ${control}%)`;
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: { 
+                            min: 5, max: 10,
+                            ticks: { font: { size: 9, family: 'Kanit', weight: 'bold' }, callback: (v) => v.toFixed(2), padding: 10 },
+                            grid: { color: 'rgba(23, 23, 23, 0.1)', drawBorder: false }
+                        },
+                        x: { ticks: { font: { size: 10, weight: 'bold' }, padding: 8 }, grid: { display: false } }
+                    }
+                }
+            });
+        };
+
+        function toggleMenu(id) {
+            const el = document.getElementById(id);
+            if(el) el.classList.toggle('hidden');
+        }
+</script>
+</body>
+</html>

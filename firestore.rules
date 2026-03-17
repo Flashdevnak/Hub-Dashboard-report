@@ -1,0 +1,88 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isSelf(userId) {
+      return signedIn() && request.auth.uid == userId;
+    }
+
+    function userDoc() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid));
+    }
+
+    function hasUserDoc() {
+      return signedIn() && exists(/databases/$(database)/documents/users/$(request.auth.uid));
+    }
+
+    function isAdmin() {
+      return hasUserDoc() && userDoc().data.role == "admin";
+    }
+
+    function isBranchAdmin() {
+      return hasUserDoc() && userDoc().data.role == "branch_admin";
+    }
+
+    function allowedBranches() {
+      return hasUserDoc() && userDoc().data.allowedBranches is list
+        ? userDoc().data.allowedBranches
+        : ["default"];
+    }
+
+    function canAccessBranch(branchCode) {
+      return isAdmin() || (signedIn() && allowedBranches().hasAny([branchCode]));
+    }
+
+    function canWriteBranch(branchCode) {
+      return isAdmin() || (isBranchAdmin() && allowedBranches().hasAny([branchCode]));
+    }
+
+    match /site/{docId} {
+      allow read: if signedIn();
+      allow write: if isAdmin();
+    }
+
+    match /pages/{pageId} {
+      allow read: if signedIn() && canAccessBranch(resource.data.branchCode);
+      allow create: if signedIn() && canWriteBranch(request.resource.data.branchCode);
+      allow update: if signedIn()
+        && canWriteBranch(resource.data.branchCode)
+        && canWriteBranch(request.resource.data.branchCode);
+      allow delete: if signedIn() && canWriteBranch(resource.data.branchCode);
+    }
+
+    match /users/{userId} {
+      allow read: if signedIn() && (isSelf(userId) || isAdmin());
+      allow create: if isSelf(userId)
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.role == "user";
+      allow update: if isAdmin()
+        || (isSelf(userId)
+          && request.resource.data.uid == resource.data.uid
+          && request.resource.data.role == resource.data.role
+          && request.resource.data.allowedBranches == resource.data.allowedBranches);
+      allow delete: if isAdmin();
+    }
+
+
+    function canWriteTemplateBranch(branchCode) {
+      return isAdmin() || (branchCode != "*" && isBranchAdmin() && canWriteBranch(branchCode));
+    }
+
+    match /mapping_templates/{templateId} {
+      allow read: if signedIn();
+      allow create: if canWriteTemplateBranch(request.resource.data.branchCode);
+      allow update: if canWriteTemplateBranch(resource.data.branchCode)
+        && canWriteTemplateBranch(request.resource.data.branchCode);
+      allow delete: if canWriteTemplateBranch(resource.data.branchCode);
+    }
+
+    match /audit_logs/{logId} {
+      allow read: if isAdmin() || isBranchAdmin();
+      allow create: if isAdmin() || isBranchAdmin();
+      allow update, delete: if false;
+    }
+  }
+}

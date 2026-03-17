@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BNAK Performance 2026 - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Noto+Sans+Thai:wght@400;600;700&family=Kanit:wght@300;400;500;600&display=swap');
+        
+        :root {
+            --flash-yellow: #FACC15;
+            --flash-black: #171717;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Sans Thai', 'Kanit', sans-serif;
+            background-color: #f8fafc;
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar Styling */
+        .sidebar-item {
+            padding: 8px 16px;
+            border-radius: 8px;
+            margin: 1px 8px;
+            transition: all 0.2s;
+            cursor: pointer;
+            font-size: 13px;
+            display: block;
+            color: #475569;
+        }
+        .sidebar-item:hover { background: #f1f5f9; color: #1e293b; }
+        .sidebar-active-main {
+            background: #fefce8;
+            border-left: 4px solid var(--flash-yellow);
+            font-weight: 700;
+            color: #854d0e;
+        }
+        .sidebar-active-sub {
+            color: #ca8a04;
+            font-weight: 700;
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+
+        table { width: 100%; border-collapse: separate; border-spacing: 0; }
+        th { 
+            font-size: 10px; 
+            padding: 12px 10px; 
+            text-transform: uppercase; 
+            color: white !important; 
+            font-weight: 800; 
+            text-align: left;
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            background-color: #000000;
+        }
+        td { font-size: 12px; padding: 10px 10px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
+        
+        .tag-status { padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: bold; }
+        .status-over { background-color: #fee2e2; color: #b91c1c; }
+        .status-ok { background-color: #dcfce7; color: #15803d; }
+
+        .monthly-table-container { max-height: 100px; overflow-y: auto; }
+        .compact-th { font-size: 9px; padding: 8px 10px !important; }
+        .compact-td { font-size: 12px; padding: 6px 10px !important; }
+    </style>
+</head>
+<body style="opacity:0;transition:opacity .2s ease" class="flex flex-col lg:flex-row">
+
+    <!-- Sidebar Navigation -->
+    <aside class="w-full lg:w-64 bg-white border-r border-gray-200 flex flex-col shrink-0 lg:h-screen z-50">
+        <div class="p-5 border-b flex justify-between items-center lg:block">
+            <div>
+                <h2 class="text-xl font-black tracking-tighter text-slate-900 uppercase italic" data-bnak-app-name>BNAK Performance 2026</h2>
+                <p class="text-[10px] text-gray-400 font-bold uppercase tracking-tight" data-bnak-brand>Flash Express</p>
+            </div>
+        </div>
+
+        <div class="flex flex-col flex-1 overflow-y-auto custom-scrollbar py-2 text-sm">
+            <a href="index.html" class="sidebar-item">
+                <div class="text-slate-800 font-medium">หน้าหลัก Dashboard</div>
+                <div class="text-[10px] text-gray-500 uppercase font-bold">สรุปภาพรวม</div>
+            </a>
+            
+            <div class="px-4 py-2 text-[10px] font-bold text-gray-400 uppercase mt-2">ประสิทธิภาพปฏิบัติการ</div>
+            <a href="kpi-productivity.html" class="sidebar-item">
+                <div class="text-slate-700">ประสิทธิภาพรายบุคคล</div>
+            </a>
+            <a href="kpi-loading.html" class="sidebar-item">
+                <div class="text-slate-700">อัตราการบรรทุกพัสดุ</div>
+            </a>
+            
+            <div class="px-4 py-2 text-[10px] font-bold text-gray-400 uppercase mt-2">คุณภาพและพัสดุคงคลัง</div>
+            <div onclick="toggleMenu('loss-sub')" class="sidebar-item flex justify-between items-center">
+                <span>อัตราการสูญหาย</span>
+                <svg class="w-3 h-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+            </div>
+            <div id="loss-sub" class="hidden bg-gray-50 mx-2 rounded-lg text-xs">
+                <a href="kpi-lost.html" class="block p-2 pl-8 hover:text-yellow-600">ภาพรวมการสูญหาย</a>
+                <a href="kpi-lost-detail.html" class="block p-2 pl-8 hover:text-yellow-600">รายละเอียดข้อมูล</a>
+            </div>
+         
+            <div onclick="toggleMenu('damage-sub')" class="sidebar-item flex justify-between items-center">
+                <span>อัตราการเสียหาย</span>
+                <svg class="w-3 h-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+            </div>
+            <div id="damage-sub" class="hidden bg-gray-50 mx-2 rounded-lg text-xs">
+                <a href="kpi-damage.html" class="block p-2 pl-8 hover:text-yellow-600">ภาพรวมการเสียหาย</a>
+                <a href="kpi-damage-detail.html" class="block p-2 pl-8 hover:text-yellow-600">รายละเอียดข้อมูล</a>
+            </div>
+
+            <a href="kpi-inventory.html" class="sidebar-item text-slate-700">อัตราสินค้าคงคลัง</a>
+
+            <div class="px-4 py-2 text-[10px] font-bold text-gray-400 uppercase mt-2 tracking-widest">วิเคราะห์ประสิทธิภาพต้นทุน</div>
+            
+            <div onclick="toggleSub('piece-cost-sub')" class="sidebar-item flex justify-between items-center sidebar-active-main">
+                <span>ต้นทุนพัสดุรายชิ้น</span>
+                <svg class="w-3 h-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+            </div>
+            <div id="piece-cost-sub" class="bg-slate-50 mx-2 rounded-lg text-xs">
+                <a href="kpi-cost-per-piece.html" class="block p-2 pl-8 hover:text-yellow-600">ภาพรวมต้นทุนดำเนินการ</a>
+                <a href="kpi-cost-per-piece-detail.html" class="block p-2 pl-8 hover:text-yellow-600">วิเคราะห์ข้อมูลต้นทุน</a>
+            </div>
+
+            <div onclick="toggleSub('transport-cost-sub')" class="sidebar-item flex justify-between items-center sidebar-active-main">
+                <span>ต้นทุนขนส่งรายชิ้น</span>
+                <svg class="w-3 h-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+            </div>
+            <div id="transport-cost-sub" class="bg-slate-50 mx-2 rounded-lg text-xs">
+                <a href="kpi-transport-cost.html" class="block p-2 pl-8 hover:text-yellow-600">ภาพรวมต้นทุนขนส่ง</a>
+                <a href="kpi-transport-cost-detail.html" class="sidebar-active-sub block p-2 pl-8">วิเคราะห์ข้อมูลขนส่ง</a>
+            </div>
+
+            <div class="px-4 py-2 text-[10px] font-bold text-gray-400 uppercase mt-2">ประสิทธิภาพเวลาเดินรถ</div>
+            <a href="kpi-ontime-depart.html" class="sidebar-item text-slate-700">ปล่อยรถตรงเวลา</a>
+            <a href="kpi-ontime-arrival.html" class="sidebar-item text-slate-700">ลงรถทันเวลา</a>
+            <a href="kpi-scan-out.html" class="sidebar-item text-slate-700">สแกนพัสดุขาออก</a>
+            <a href="kpi-scan-in.html" class="sidebar-item text-slate-700">สแกนพัสดุขาเข้า</a>
+
+            <div class="mt-auto p-4 border-t">
+                <a href="outstanding-actions.html" class="block text-xs font-bold text-slate-400 hover:text-yellow-600 mb-2 uppercase tracking-tight">สิ่งที่ต้องดำเนินการ</a>
+                <a href="need-support.html" class="block text-xs font-bold text-red-500 hover:text-red-600 uppercase">ขอรับการสนับสนุน</a>
+            </div>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col p-4 md:p-6 overflow-hidden bg-slate-50">
+        
+        <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4 shrink-0">
+            <div>
+                <nav class="text-[10px] font-bold text-yellow-600 uppercase mb-1 tracking-widest">Cost Analysis Dashboard</nav>
+                <h1 class="text-2xl font-black text-slate-900 leading-tight uppercase">
+                    TRANSPORT COST DETAIL <span class="text-yellow-500">2026</span>
+                </h1>
+                <p class="text-xs text-slate-500 font-medium mt-1 italic uppercase tracking-wider">สรุปงบประมาณและต้นทุนจ่ายจริงรายประเภท (M2 DATA)</p>
+            </div>
+            <div class="flex items-center gap-3 bg-white p-2 rounded-xl border border-slate-200 shadow-sm">
+                <div class="text-right">
+                    <p class="text-[10px] font-bold text-gray-400 uppercase leading-none">สถานะงบประมาณ</p>
+                    <p class="text-sm font-black text-red-600 uppercase tracking-tighter">OVER BUDGET</p>
+                </div>
+                <div class="w-10 h-10 rounded-lg bg-red-600 flex items-center justify-center text-white shadow-inner">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+            </div>
+        <div id="bnak-user-badge" class="flex items-center gap-3 bg-white p-2 rounded-xl border border-slate-200 shadow-sm mt-3 md:mt-0"></div></header>
+
+        <div class="w-full grid grid-cols-6 gap-3 mb-6 shrink-0">
+            <div class="bg-white border border-slate-200 p-3 rounded-2xl shadow-sm text-center">
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-tight mb-1">จ่ายจริง (Actual)</p>
+                <h2 class="text-lg font-black text-slate-800">4,478,286</h2>
+            </div>
+            <div class="bg-white border border-slate-200 p-3 rounded-2xl shadow-sm text-center">
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-tight mb-1">งบประมาณ (Budget)</p>
+                <h2 class="text-lg font-black text-slate-800">3,483,292</h2>
+            </div>
+            <div class="bg-red-50 border border-red-100 p-3 rounded-2xl shadow-sm text-center">
+                <p class="text-[10px] font-bold text-red-400 uppercase tracking-tight mb-1">กำไร/ขาดทุน</p>
+                <h2 class="text-lg font-black text-red-600">-994,994</h2>
+            </div>
+            <div class="bg-white border border-slate-200 p-3 rounded-2xl shadow-sm text-center">
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-tight mb-1">พัสดุ (Volume)</p>
+                <h2 class="text-lg font-black text-slate-800">576,878</h2>
+            </div>
+            <div class="bg-red-50 border border-red-100 p-3 rounded-2xl shadow-sm text-center">
+                <p class="text-[10px] font-bold text-red-500 uppercase tracking-tight mb-1">ผลงาน (Actual)</p>
+                <h2 class="text-lg font-black text-red-600">7.763</h2>
+            </div>
+            <div class="bg-slate-900 text-white p-3 rounded-2xl shadow-lg border-b-4 border-yellow-400 text-center">
+                <p class="text-[10px] font-bold text-yellow-400 uppercase tracking-tight mb-1">เป้าหมาย (Target)</p>
+                <h2 class="text-lg font-black text-yellow-400">6.038</h2>
+            </div>
+        </div>
+
+        <div class="w-full grid grid-cols-12 gap-5 flex-grow overflow-hidden">
+            <div class="col-span-12 lg:col-span-4 flex flex-col gap-4 overflow-hidden">
+                <div class="bg-white border border-slate-200 p-5 rounded-3xl shadow-sm flex flex-col h-full overflow-hidden">
+                    <h4 class="text-[10px] font-black text-slate-500 uppercase mb-4 tracking-widest border-b pb-2">สัดส่วนต้นทุนจริง (฿)</h4>
+                    <div id="costBreakdownList" class="flex flex-col gap-4 overflow-y-auto custom-scrollbar pr-1"></div>
+                    
+                    <div class="mt-auto pt-4 border-t">
+                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                            <p class="text-[10px] font-bold text-slate-400 uppercase mb-1 tracking-tight">Cost Efficiency</p>
+                            <p class="text-xs font-bold text-slate-700">CPP จริงสูงกว่าเป้าหมาย +1.725 ฿</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-span-12 lg:col-span-8 flex flex-col gap-4 overflow-hidden">
+                <div class="bg-white border border-slate-200 p-4 rounded-3xl shadow-sm flex flex-col shrink-0">
+                    <h3 class="text-[10px] font-black mb-2 flex items-center uppercase tracking-wider text-slate-800">
+                        <span class="w-1.5 h-3 bg-yellow-400 mr-2 rounded-full"></span> Monthly Performance Detail
+                    </h3>
+                    <div class="monthly-table-container custom-scrollbar">
+                        <table>
+                            <thead class="bg-black text-white uppercase font-black sticky top-0 z-10">
+                                <tr>
+                                    <th class="compact-th">เดือน</th>
+                                    <th class="compact-th text-center">เป้าหมาย CPP</th>
+                                    <th class="compact-th text-center">CPP จริง</th>
+                                    <th class="compact-th text-center">งบประมาณ</th>
+                                    <th class="compact-th text-center">จ่ายจริง</th>
+                                    <th class="compact-th text-right pr-4">กำไร/ขาดทุน</th>
+                                </tr>
+                            </thead>
+                            <tbody id="monthlyTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="bg-white border border-slate-200 p-5 rounded-3xl shadow-sm flex flex-col flex-grow overflow-hidden min-h-0">
+                    <div class="flex justify-between items-center mb-3 shrink-0">
+                        <h3 class="text-[11px] font-black flex items-center uppercase tracking-wider text-slate-800">
+                            <span class="w-1.5 h-4 bg-slate-800 mr-2 rounded-full"></span> Detailed Actual Records (M2)
+                        </h3>
+                        <span class="text-[10px] font-bold text-slate-400 uppercase italic">เรียงจากมากไปน้อย</span>
+                    </div>
+                    
+                    <div class="overflow-y-auto custom-scrollbar flex-grow border border-slate-50 rounded-xl relative">
+                        <table class="w-full">
+                            <thead class="bg-black">
+                                <tr>
+                                    <th style="width: 12%; color: white !important;" class="pl-6">ลำดับ</th>
+                                    <th style="width: 53%; color: white !important;">ประเภท</th>
+                                    <th style="width: 35%; text-align: right; color: white !important;" class="pr-8">จำนวนเงิน (บาท)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="detailTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module">
+import { loadPageRuntime, getPage } from "/assets/bnak-runtime.js";
+const runtime = await loadPageRuntime("kpi-transport-cost-detail", { admin: false });
+const pageData = runtime.data || {};
+const headline = runtime.headline || {};
+const transportCosts = (pageData.transportCosts ?? []);
+const transportSummaryPage = await getPage("kpi-transport-cost");
+const transportMonthlyData = transportSummaryPage?.data?.monthlyData ?? [];
+
+        const activeMonths = transportMonthlyData.filter((row) => row && row.month && row.actual !== null && row.actual !== undefined);
+        const m1Data = activeMonths[0] ?? { month: "M1", target: 0, actual: 0, budget: 0, cost: 0 };
+        const m2Data = activeMonths[1] ?? activeMonths[0] ?? { month: "M2", target: 0, actual: 0, budget: 0, cost: 0 };
+        const totalActual = Number(m2Data.cost ?? 0);
+
+        const formatInt = (num) => {
+            if (num === null || num === undefined || num === "") return "-";
+            return Number(num).toLocaleString('en-US', { maximumFractionDigits: 0 });
+        };
+
+        const renderUI = () => {
+            const mBody = document.getElementById('monthlyTableBody');
+            mBody.innerHTML = `
+                <tr>
+                    <td class="font-black text-slate-800 pl-4 compact-td">${m1Data.month}</td>
+                    <td class="text-center font-medium text-slate-500 compact-td">${m1Data.target.toFixed(3)}</td>
+                    <td class="text-center text-slate-500 compact-td">${m1Data.actual.toFixed(3)}</td>
+                    <td class="text-center font-medium text-slate-500 compact-td">${formatInt(m1Data.budget)}</td>
+                    <td class="text-center text-slate-700 compact-td">${formatInt(m1Data.cost)}</td>
+                    <td class="text-right pr-4 text-slate-500 compact-td">${formatInt((m1Data.budget ?? 0) - (m1Data.cost ?? 0))}</td>
+                </tr>                   
+                    <td class="font-black text-slate-800 pl-4 compact-td">${m2Data.month} <span class="tag-status status-over ml-1">OVER</span></td>
+                    <td class="text-center font-medium text-slate-500 compact-td">${m2Data.target.toFixed(3)}</td>
+                    <td class="text-center font-black text-red-600 compact-td">${m2Data.actual.toFixed(3)}</td>
+                    <td class="text-center font-medium text-slate-500 compact-td">${formatInt(m2Data.budget)}</td>
+                    <td class="text-center font-black text-slate-800 compact-td">${formatInt(m2Data.cost)}</td>
+                    <td class="text-right pr-4 font-black text-red-600 compact-td">${formatInt((m2Data.budget ?? 0) - (m2Data.cost ?? 0))}</td>
+                </tr>
+            `;
+
+            const breakdownList = document.getElementById('costBreakdownList');
+            breakdownList.innerHTML = '';
+            transportCosts.forEach(item => {
+                const percentage = totalActual > 0 ? ((item.amount / totalActual) * 100).toFixed(1) : 0;
+                breakdownList.innerHTML += `
+                    <div class="flex flex-col gap-1.5">
+                        <div class="flex justify-between items-center text-[12px]">
+                            <span class="text-slate-600 font-semibold">${item.type}</span>
+                            <span class="font-black text-slate-900">${formatInt(item.amount)} ฿</span>
+                        </div>
+                        <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                            <div class="bg-slate-900 h-full rounded-full transition-all duration-500" style="width: ${percentage}%"></div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            const dBody = document.getElementById('detailTableBody');
+            dBody.innerHTML = '';
+            transportCosts.forEach((record, i) => {
+                dBody.innerHTML += `<tr class="hover:bg-slate-50 transition-colors">
+                    <td class="font-black text-slate-400 pl-6 py-3">${i + 1}</td>
+                    <td class="font-bold text-slate-800 uppercase text-[12px] py-3">${record.type}</td>
+                    <td class="text-right pr-8 text-slate-900 font-black text-[12px] py-3">${formatInt(record.amount)}</td>
+                </tr>`;
+            });
+        };
+
+        window.onload = renderUI;
+
+        function toggleSub(id) {
+            const el = document.getElementById(id);
+            if(el) el.classList.toggle('hidden');
+        }
+
+        function toggleMenu(id) {
+            const el = document.getElementById(id);
+            if(el) el.classList.toggle('hidden');
+        }
+</script>
+</body>
+</html>

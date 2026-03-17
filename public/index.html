@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BNAK Performance 2026 - Dashboard</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Noto+Sans+Thai:wght@400;600;700&family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+    :root {
+        --flash-yellow: #FACC15;
+        --flash-black: #171717;
+    }
+    body {
+        font-family: 'Inter', 'Noto Sans Thai', sans-serif;
+        background: #f8fafc;
+        color: #1e293b;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 10px;
+    }
+    .sidebar-item {
+        padding: 10px 16px;
+        border-radius: 8px;
+        margin: 2px 8px;
+        transition: all 0.2s;
+        cursor: pointer;
+    }
+    .sidebar-item:hover {
+        background: #f1f5f9;
+    }
+    .sidebar-active {
+        background: #fefce8;
+        border-left: 4px solid var(--flash-yellow);
+        font-weight: 600;
+    }
+    .metric-card {
+        background: white;
+        border-radius: 12px;
+        padding: 1rem;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .metric-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+    }
+    .score-gradient {
+        background: linear-gradient(135deg, #171717 0%, #334155 100%);
+    }
+    .status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        display: inline-block;
+    }
+    @media (min-width: 1024px) {
+        .content-height { height: 100vh; overflow-y: auto; }
+    }
+</style>
+</head>
+
+<body style="opacity:0;transition:opacity .2s ease" class="overflow-x-hidden">
+
+<div class="flex flex-col lg:flex-row min-h-screen">
+
+    <!-- SIDEBAR -->
+    <aside class="w-full lg:w-64 bg-white border-r border-gray-200 flex flex-col shrink-0 lg:sticky lg:top-0 lg:h-screen">
+        <div class="p-5 border-b flex justify-between items-center lg:block">
+            <div>
+                <h2 class="text-xl font-black tracking-tighter text-slate-900" data-bnak-app-name>BNAK Performance 2026</h2>
+                <p class="text-[10px] text-gray-400 font-bold uppercase" data-bnak-brand>Flash Express</p>
+            </div>
+            <button class="lg:hidden p-2 text-gray-500" onclick="document.getElementById('mobile-nav').classList.toggle('hidden')">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+
+        <div id="mobile-nav" class="hidden lg:flex flex-col flex-1 overflow-y-auto custom-scrollbar py-2 text-sm">
+            <a href="index.html" class="sidebar-item sidebar-active">
+                <div class="text-slate-800">หน้าหลัก Dashboard</div>
+                <div class="text-[10px] text-gray-500 uppercase">สรุปภาพรวม</div>
+            </a>
+
+            <div class="px-4 py-2 text-[10px] font-bold text-gray-400 uppercase mt-2">ประสิทธิภาพปฏิบัติการ</div>
+            <a href="kpi-productivity.html" class="sidebar-item">
+                <div class="text-slate-700">ประสิทธิภาพรายบุคคล</div>
+            </a>
+            <a href="kpi-loading.html" class="sidebar-item">
+                <div class="text-slate-700">อัตราการบรรทุกพัสดุ</div>
+            </a>
+
+            <div class="px-4 py-2 text-[10px] font-bold text-gray-400 uppercase mt-2">คุณภาพและพัสดุคงคลัง</div>
+            <div onclick="toggleMenu('loss-sub')" class="sidebar-item flex justify-between items-center">
+                <span>อัตราการสูญหาย</span>
+                <svg class="w-3 h-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+            </div>
+            <div id="loss-sub" class="hidden bg-gray-50 mx-2 rounded-lg text-xs">
+                <a href="kpi-lost.html" class="block p-2 pl-8 hover:text-yellow-600">ภาพรวมการสูญหาย</a>
+                <a href="kpi-lost-detail.html" class="block p-2 pl-8 hover:text-yellow-600">รายละเอียดข้อมูล</a>
+            </div>
+
+            <div onclick="toggleMenu('damage-sub')" class="sidebar-item flex justify-between items-center">
+                <span>อัตราการเสียหาย</span>
+                <svg class="w-3 h-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+            </div>
+            <div id="damage-sub" class="hidden bg-gray-50 mx-2 rounded-lg text-xs">
+                <a href="kpi-damage.html" class="block p-2 pl-8 hover:text-yellow-600">ภาพรวมการเสียหาย</a>
+                <a href="kpi-damage-detail.html" class="block p-2 pl-8 hover:text-yellow-600">รายละเอียดข้อมูล</a>
+            </div>
+            <a href="kpi-inventory.html" class="sidebar-item text-slate-700">อัตราสินค้าคงคลัง</a>
+
+            <div class="px-4 py-2 text-[10px] font-bold text-gray-400 uppercase mt-2">วิเคราะห์ประสิทธิภาพต้นทุน</div>
+            <div onclick="toggleMenu('cost-sub')" class="sidebar-item flex justify-between items-center">
+                <span>ต้นทุนพัสดุรายชิ้น</span>
+                <svg class="w-3 h-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+            </div>
+            <div id="cost-sub" class="hidden bg-gray-50 mx-2 rounded-lg text-xs">
+                <a href="kpi-cost-per-piece.html" class="block p-2 pl-8 hover:text-yellow-600">ภาพรวมต้นทุนดำเนินงาน</a>
+                <a href="kpi-cost-per-piece-detail.html" class="block p-2 pl-8 hover:text-yellow-600">วิเคราะห์ข้อมูลต้นทุน</a>
+            </div>
+            <div onclick="toggleMenu('transport-cost-sub')" class="sidebar-item flex justify-between items-center">
+                <span>ต้นทุนขนส่งรายชิ้น</span>
+                <svg class="w-3 h-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+            </div>
+            <div id="transport-cost-sub" class="hidden bg-gray-50 mx-2 rounded-lg text-xs">
+                <a href="kpi-transport-cost.html" class="block p-2 pl-8 hover:text-yellow-600">ภาพรวมต้นทุนขนส่ง</a>
+                <a href="kpi-transport-cost-detail.html" class="block p-2 pl-8 hover:text-yellow-600">วิเคราะห์ข้อมูลขนส่ง</a>
+            </div>
+
+            <div class="px-4 py-2 text-[10px] font-bold text-gray-400 uppercase mt-2">ประสิทธิภาพเวลาเดินรถ</div>
+            <a href="kpi-ontime-depart.html" class="sidebar-item text-slate-700">ปล่อยรถตรงเวลา</a>
+            <a href="kpi-ontime-arrival.html" class="sidebar-item text-slate-700">ลงรถทันเวลา</a>
+            <a href="kpi-scan-out.html" class="sidebar-item text-slate-700">สแกนพัสดุขาออก</a>
+            <a href="kpi-scan-in.html" class="sidebar-item text-slate-700">สแกนพัสดุขาเข้า</a>
+
+            <div class="mt-auto p-4 border-t border-gray-100">
+                <a href="outstanding-actions.html" class="block text-xs font-bold text-slate-400 hover:text-yellow-600 mb-2 uppercase tracking-tight">สิ่งที่ต้องดำเนินการ</a>
+                <a href="need-support.html" class="block text-xs font-bold text-red-500 hover:text-red-600 uppercase">ขอรับการสนับสนุน</a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    
+<main class="flex-1 content-height p-4 sm:p-6 lg:p-6 bg-slate-50">
+  <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+    <div>
+      <nav class="text-[10px] font-bold text-yellow-600 uppercase mb-1 tracking-widest">Performance Analysis Dashboard</nav>
+      <h1 id="dashboard-title" class="text-2xl lg:text-3xl font-black text-slate-900 leading-tight uppercase">BNAK KPI Dashboard</h1>
+      <p class="text-xs text-slate-500 font-medium mt-1 uppercase tracking-wider">รายงานวิเคราะห์อัตราความสำเร็จตามตัวชี้วัดประจำเดือน</p>
+    </div>
+    <div id="bnak-user-badge" class="flex items-center gap-3 bg-white p-2 rounded-xl border border-slate-200 shadow-sm"></div>
+  </header>
+  <div id="dashboard-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 items-start"></div>
+</main>
+
+
+</div>
+
+
+
+
+<script type="module">
+import { requireAuth, getPages, getSite, bindSite, bindUserBadge } from "/assets/bnak-runtime.js";
+await requireAuth();
+const [site, pages] = await Promise.all([getSite(), getPages()]);
+bindSite(site);
+bindUserBadge();
+
+const grid = document.getElementById("dashboard-grid");
+const title = document.getElementById("dashboard-title");
+title.textContent = site?.appName || "BNAK KPI Dashboard";
+
+function fmt(value, unit) {
+  if (value === null || value === undefined || value === "") return "-";
+  if (typeof value !== "number") return String(value);
+  if (unit === "percent") return `${(value > 1 ? value : value * 100).toFixed(2)}%`;
+  if (unit === "currency") return `฿${value.toLocaleString("th-TH", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  return value.toLocaleString("th-TH", { maximumFractionDigits: 2 });
+}
+
+function progress(page) {
+  const h = page.headline || {};
+  if (typeof h.actual === "number" && typeof h.target === "number" && h.target !== 0) {
+    if (page.unit === "currency") return (h.target / h.actual) * 100;
+    return (h.actual / h.target) * 100;
+  }
+  return null;
+}
+
+grid.innerHTML = pages
+  .filter((page) => page.slug !== "dashboard")
+  .sort((a,b) => (a.title || "").localeCompare(b.title || ""))
+  .map((page) => {
+    const h = page.headline || {};
+    const p = progress(page);
+    const pct = p === null ? "-" : `${p.toFixed(2)}%`;
+    const cls = p === null ? "bg-slate-100 text-slate-600" : p >= 100 ? "bg-green-100 text-green-700" : "bg-red-100 text-red-600";
+    const border = p === null ? "border-slate-300" : p >= 100 ? "border-green-500" : "border-red-500";
+    return `
+      <a href="/${page.slug}" class="bg-white rounded-2xl border-t-4 ${border} p-4 shadow-sm h-full block hover:-translate-y-0.5 transition-all">
+        <h3 class="text-sm font-black text-slate-800 mb-4 uppercase tracking-tight h-6">${page.title}</h3>
+        <div class="metric-card">
+          <div class="flex justify-between items-center mb-1 gap-3">
+            <span class="text-[10px] font-bold text-slate-400 uppercase">${page.type || page.slug}</span>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded ${cls}">${pct === "-" ? "ไม่มีค่า" : `สำเร็จ ${pct}`}</span>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <span class="text-2xl font-black text-slate-900">${fmt(h.actual ?? h.cost ?? h.month, page.unit)}</span>
+            <span class="text-[10px] text-gray-400">/ เป้าหมาย ${fmt(h.target, page.unit)}</span>
+          </div>
+        </div>
+      </a>
+    `;
+  }).join("");
+
+window.toggleMenu = function(id) {
+  const el = document.getElementById(id);
+  if (el) el.classList.toggle("hidden");
+};
+</script>
+
+</body>
+</html>

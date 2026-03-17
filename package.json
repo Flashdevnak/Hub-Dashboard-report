@@ -1,0 +1,31 @@
+{
+  "name": "bnak-centralized-dashboard",
+  "private": true,
+  "version": "1.2.0",
+  "engines": {
+    "node": ">=20.9.0"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "seed": "tsx scripts/seed-firestore.ts",
+    "check:env": "tsx scripts/check-env.ts",
+    "check": "npm run check:env && npm run build"
+  },
+  "dependencies": {
+    "firebase": "latest",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "xlsx": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "tsx": "latest",
+    "typescript": "latest"
+  }
+}

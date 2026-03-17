@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BNAK Performance 2026 - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Noto+Sans+Thai:wght@400;600;700&family=Kanit:wght@300;400;500;600&display=swap');
+        
+        :root {
+            --flash-yellow: #FACC15;
+            --flash-black: #171717;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Sans Thai', 'Kanit', sans-serif;
+            background-color: #f8fafc;
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .sidebar-item {
+            padding: 10px 16px;
+            border-radius: 8px;
+            margin: 2px 8px;
+            transition: all 0.2s;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .sidebar-item:hover { background: #f1f5f9; }
+        .sidebar-active {
+            background: #fefce8;
+            border-left: 4px solid var(--flash-yellow);
+            font-weight: 600;
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+
+        table { width: 100%; border-collapse: separate; border-spacing: 0; }
+        th { 
+            font-size: 10px; 
+            padding: 12px 10px; 
+            text-transform: uppercase; 
+            color: white !important; 
+            font-weight: 800; 
+            text-align: left;
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            background-color: #000000;
+        }
+        td { font-size: 12px; padding: 10px 10px; border-bottom: 1px solid #f9fafb; vertical-align: middle; }
+        
+        .tag-best { background-color: #FACC15; color: #171717; padding: 1px 4px; border-radius: 2px; font-size: 8px; font-weight: bold; margin-left: 5px; }
+        
+        .monthly-table-container { max-height: 85px; overflow-y: auto; }
+        .compact-th { font-size: 9px; padding: 8px 10px !important; color: white !important; }
+        .compact-td { font-size: 12px; padding: 6px 10px !important; }
+    </style>
+</head>
+<body style="opacity:0;transition:opacity .2s ease">
+
+    <aside class="w-full lg:w-64 bg-white border-r border-gray-200 flex flex-col shrink-0 lg:sticky lg:top-0 lg:h-screen z-50">
+        <div class="p-5 border-b flex justify-between items-center lg:block">
+            <div>
+                <h2 class="text-xl font-black tracking-tighter text-slate-900 uppercase italic" data-bnak-app-name>BNAK Performance 2026</h2>
+                <p class="text-[10px] text-gray-400 font-bold uppercase tracking-tight" data-bnak-brand>Flash Express</p>
+            </div>
+            <button class="lg:hidden p-2 text-gray-500" onclick="document.getElementById('mobile-nav').classList.toggle('hidden')">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+
+        <div id="mobile-nav" class="hidden lg:flex flex-col flex-1 overflow-y-auto custom-scrollbar py-2 text-sm">
+            <a href="index.html" class="sidebar-item text-slate-700">
+                <div class="font-medium">หน้าหลัก Dashboard</div>
+                <div class="text-[10px] text-gray-500 uppercase">สรุปภาพรวม</div>
+            </a>
+            
+            <div class="px-4 py-2 text-[10px] font-bold text-gray-400 uppercase mt-2 tracking-widest">ประสิทธิภาพปฏิบัติการ</div>
+            <a href="kpi-productivity.html" class="sidebar-item text-slate-700">ประสิทธิภาพรายบุคคล</a>
+            <a href="kpi-loading.html" class="sidebar-item text-slate-700">อัตราการบรรทุกพัสดุ</a>
+            
+            <div class="px-4 py-2 text-[10px] font-bold text-gray-400 uppercase mt-2 tracking-widest">คุณภาพและพัสดุคงคลัง</div>
+            <div onclick="toggleMenu('loss-sub')" class="sidebar-item flex justify-between items-center text-slate-700 hover:text-slate-900">
+                <span>อัตราการสูญหาย</span>
+                <svg class="w-3 h-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+            </div>
+            <div id="loss-sub" class="hidden bg-gray-50 mx-2 rounded-lg text-xs">
+                <a href="kpi-lost.html" class="block p-2 pl-8 hover:text-yellow-600">ภาพรวมการสูญหาย</a>
+                <a href="kpi-lost-detail.html" class="block p-2 pl-8 hover:text-yellow-600">รายละเอียดข้อมูล</a>
+            </div>
+            
+            <div onclick="toggleMenu('damage-sub')" class="sidebar-item flex justify-between items-center text-slate-700 hover:text-slate-900">
+                <span>อัตราการเสียหาย</span>
+                <svg class="w-3 h-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+            </div>
+            <div id="damage-sub" class="bg-gray-50 mx-2 rounded-lg text-xs">
+                <a href="kpi-damage.html" class="block p-2 pl-8 hover:text-yellow-600">ภาพรวมการเสียหาย</a>
+                <a href="kpi-damage-detail.html" class="sidebar-active block p-2 pl-8 text-yellow-600 font-bold">รายละเอียดข้อมูล</a>
+            </div>
+            
+            <a href="kpi-inventory.html" class="sidebar-item text-slate-700">อัตราสินค้าคงคลัง</a>
+            
+            <div class="px-4 py-2 text-[10px] font-bold text-gray-400 uppercase mt-2 tracking-widest">วิเคราะห์ประสิทธิภาพต้นทุน</div>
+
+            <div onclick="toggleMenu('cost-sub')" class="sidebar-item flex justify-between items-center text-slate-700 hover:text-slate-900">
+                <span>ต้นทุนพัสดุรายชิ้น</span>
+                <svg class="w-3 h-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+            </div>
+            <div id="cost-sub" class="hidden bg-gray-50 mx-2 rounded-lg text-xs">
+                <a href="kpi-cost-per-piece.html" class="block p-2 pl-8 hover:text-yellow-600">ภาพรวมต้นทุนดำเนินงาน</a>
+                <a href="kpi-cost-per-piece-detail.html" class="block p-2 pl-8 hover:text-yellow-600">วิเคราะห์ข้อมูลต้นทุน</a>
+            </div>
+
+            <div onclick="toggleMenu('transport-cost-sub')" class="sidebar-item flex justify-between items-center text-slate-700 hover:text-slate-900">
+                <span>ต้นทุนขนส่งรายชิ้น</span>
+                <svg class="w-3 h-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+            </div>
+            <div id="transport-cost-sub" class="hidden bg-gray-50 mx-2 rounded-lg text-xs">
+                <a href="kpi-transport-cost.html" class="block p-2 pl-8 hover:text-yellow-600">ภาพรวมต้นทุนขนส่ง</a>
+                <a href="kpi-transport-cost-detail.html" class="block p-2 pl-8 hover:text-yellow-600">วิเคราะห์ข้อมูลขนส่ง</a>
+            </div>
+
+            <div class="px-4 py-2 text-[10px] font-bold text-gray-400 uppercase mt-2 tracking-widest">ประสิทธิภาพเวลาเดินรถ</div>
+            <a href="kpi-ontime-depart.html" class="sidebar-item text-slate-700">ปล่อยรถตรงเวลา</a>
+            <a href="kpi-ontime-arrival.html" class="sidebar-item text-slate-700">ลงรถทันเวลา</a>
+
+            <div class="mt-auto p-4 bg-slate-50/50">
+                <a href="outstanding-actions.html" class="block text-xs font-bold text-slate-400 hover:text-yellow-600 mb-2 uppercase tracking-tight">สิ่งที่ต้องดำเนินการ</a>
+                <a href="need-support.html" class="block text-xs font-bold text-red-500 hover:text-red-600 uppercase">ขอรับการสนับสนุน</a>
+            </div>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col p-4 md:p-6 overflow-hidden bg-slate-50">
+        
+        <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4 shrink-0">
+            <div>
+                <nav class="text-[10px] font-bold text-yellow-600 uppercase mb-1 tracking-widest">Performance Analysis Dashboard</nav>
+                <h1 class="text-2xl font-black text-slate-900 leading-tight uppercase">
+                    DAMAGE PARCEL DETAIL <span class="text-yellow-500">2026</span>
+                </h1>
+                <p class="text-xs text-slate-500 font-medium mt-1 uppercase tracking-wider italic">รายละเอียดสาเหตุและสถานะพัสดุเสียหาย (SUMMARY KPI)</p>
+            </div>
+            <div id="bnak-user-badge" class="flex items-center gap-3 bg-white p-2 rounded-xl border border-slate-200 shadow-sm">
+                <div class="text-right">
+                    <p class="text-[10px] font-bold text-gray-400 uppercase leading-none">สถานะรายงาน</p>
+                    <p class="text-sm font-black text-slate-800 uppercase tracking-tighter">SUMMARY KPI</p>
+                </div>
+                <div class="w-10 h-10 rounded-lg bg-yellow-400 flex items-center justify-center text-white shadow-inner">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                </div>
+            </div>
+        </header>
+
+        <div class="w-full grid grid-cols-4 gap-4 mb-6 shrink-0">
+            <div class="bg-white border border-slate-200 p-3 rounded-2xl shadow-sm text-center">
+                <p class="text-[12px] font-bold text-slate-400 uppercase tracking-tight mb-1">เป้าหมาย</p>
+                <h2 class="text-xl font-black text-slate-800">1</h2>
+            </div>
+            <div class="bg-white border border-slate-200 p-3 rounded-2xl shadow-sm text-center">
+                <p class="text-[12px] font-bold text-slate-400 uppercase tracking-tight mb-1">ผลงานจริง</p>
+                <h2 class="text-xl font-black text-slate-800">0</h2>
+            </div>
+            <div class="bg-green-50 border border-green-100 p-3 rounded-2xl shadow-sm text-green-600 text-center">
+                <p class="text-[12px] font-bold uppercase text-green-400 tracking-tight mb-1">GAP Analysis</p>
+                <h2 class="text-xl font-black">-1</h2>
+            </div>
+            <div class="bg-slate-900 text-white p-3 rounded-2xl shadow-lg border-b-4 border-yellow-400 text-center">
+                <p class="text-[12px] font-bold text-yellow-400 uppercase tracking-tight mb-1">Success Rate</p>
+                <h2 class="text-xl font-black text-yellow-400">100%</h2>
+            </div>
+        </div>
+
+        <div class="w-full grid grid-cols-4 gap-4 mb-4 shrink-0">
+            <div class="bg-white border border-slate-200 p-3 rounded-2xl shadow-sm flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 font-bold italic">Σ</div>
+                <div><p class="text-[10px] font-bold text-slate-400 uppercase leading-none mb-1">พัสดุถูกตัดสินทั้งหมด</p><p class="text-sm font-black text-slate-800">1 ชิ้น</p></div>
+            </div>
+            <div class="bg-white border border-slate-200 p-3 rounded-2xl shadow-sm flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 font-bold">!</div>
+                <div><p class="text-[10px] font-bold text-slate-400 uppercase leading-none mb-1">สาเหตุที่พบ</p><p class="text-sm font-black text-slate-800">1 สาเหตุ</p></div>
+            </div>
+            <div class="bg-emerald-50 border border-emerald-100 p-3 rounded-2xl shadow-sm flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center text-white">✓</div>
+                <div><p class="text-[10px] font-bold text-emerald-600 uppercase leading-none mb-1">ร้องเรียนสำเร็จ</p><p class="text-sm font-black text-emerald-700">1 รายการ</p></div>
+            </div>
+            <div class="bg-red-50 border border-red-100 p-3 rounded-2xl shadow-sm flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full bg-red-500 flex items-center justify-center text-white">✗</div>
+                <div><p class="text-[10px] font-bold text-red-600 uppercase leading-none mb-1">ไม่สำเร็จ</p><p class="text-sm font-black text-red-700">0 รายการ</p></div>
+            </div>
+        </div>
+
+        <div class="w-full grid grid-cols-12 gap-5 flex-grow overflow-hidden">
+            <div class="col-span-12 lg:col-span-4 flex flex-col gap-4 overflow-hidden">
+                <div class="bg-white border border-slate-200 p-5 rounded-3xl shadow-sm flex flex-col h-full overflow-hidden">
+                    <h4 class="text-[10px] font-black text-slate-500 uppercase mb-4 tracking-widest border-b border-slate-200 pb-2">สรุปแยกตามสาเหตุ (ชิ้น)</h4>
+                    <div id="causeBreakdownList" class="flex flex-col gap-4 overflow-y-auto custom-scrollbar pr-1"></div>
+                </div>
+            </div>
+
+            <div class="col-span-12 lg:col-span-8 flex flex-col gap-4 overflow-hidden">
+                <div class="bg-white border border-slate-200 p-4 rounded-3xl shadow-sm flex flex-col shrink-0">
+                    <h3 class="text-[11px] font-black mb-2 flex items-center uppercase tracking-wider text-slate-800">
+                        <span class="w-1.5 h-3 bg-yellow-400 mr-2 rounded-full"></span> Monthly Summary Detail
+                    </h3>
+                    <div class="monthly-table-container custom-scrollbar">
+                        <table>
+                            <thead class="bg-black text-white uppercase font-black sticky top-0 z-10">
+                                <tr>
+                                    <th class="compact-th">เดือน</th>
+                                    <th class="compact-th text-center">เป้าหมาย</th>
+                                    <th class="compact-th text-center">จริง</th>
+                                    <th class="compact-th text-right pr-4">สำเร็จ (%)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="monthlyTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="bg-white border border-slate-200 p-5 rounded-3xl shadow-sm flex flex-col flex-grow overflow-hidden min-h-0">
+                    <div class="flex justify-between items-center mb-3 shrink-0">
+                        <h3 class="text-[11px] font-black flex items-center uppercase tracking-wider text-slate-800">
+                            <span class="w-1.5 h-4 bg-slate-800 mr-2 rounded-full"></span> Detailed Records (M2)
+                        </h3>
+                        <span class="text-[10px] font-bold text-slate-400 uppercase italic">1 รายการข้อมูลพัสดุ</span>
+                    </div>
+                    
+                    <div class="overflow-y-auto custom-scrollbar flex-grow border border-slate-50 rounded-xl relative">
+                        <table class="w-full">
+                            <thead>
+                                <tr>
+                                    <th style="width: 12%;" class="pl-6">ลำดับ</th>
+                                    <th style="width: 53%;">สาเหตุที่พบ</th>
+                                    <th style="width: 35%; text-align: right;" class="pr-8">สถานะการร้องเรียน</th>
+                                </tr>
+                            </thead>
+                            <tbody id="detailTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module">
+import { loadPageRuntime } from "/assets/bnak-runtime.js";
+const runtime = await loadPageRuntime("kpi-damage-detail", { admin: false });
+const pageData = runtime.data || {};
+const headline = runtime.headline || {};
+const causeStats = (pageData.causeStats ?? []);
+
+        const detailRecords = (pageData.detailRecords ?? []);
+
+        const monthlyData = (pageData.monthlyData ?? []);
+
+        const renderUI = () => {
+            const mBody = document.getElementById('monthlyTableBody');
+            mBody.innerHTML = '';
+            monthlyData.forEach((row) => {
+                const isActive = row.month === "M1" || row.month === "M2";
+                const mTag = row.month === "M2" ? '<span class="tag-best">BEST</span>' : '';
+                mBody.innerHTML += `<tr>
+                    <td class="font-black text-slate-800 uppercase pl-1 compact-td">${row.month}${mTag}</td>
+                    <td class="text-center font-medium text-slate-400 compact-td">${row.target}</td>
+                    <td class="text-center font-black text-slate-900 compact-td">${row.actual}</td>
+                    <td class="text-right pr-4 font-black ${isActive ? 'text-green-600' : 'text-slate-300'} compact-td">${isActive ? '100.00%' : '0.00%'}</td>
+                </tr>`;
+            });
+
+            const causeListEl = document.getElementById('causeBreakdownList');
+            causeListEl.innerHTML = '';
+            Object.entries(causeStats).forEach(([name, count]) => {
+                causeListEl.innerHTML += `
+                    <div class="flex flex-col gap-1.5">
+                        <div class="flex justify-between items-center text-[12px]">
+                            <span class="text-slate-600 font-semibold">${name}</span>
+                            <span class="font-black text-slate-900">${count} ชิ้น</span>
+                        </div>
+                        <div class="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
+                            <div class="bg-yellow-400 h-full rounded-full" style="width: 100%"></div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            const dBody = document.getElementById('detailTableBody');
+            dBody.innerHTML = '';
+            detailRecords.forEach((record, i) => {
+                dBody.innerHTML += `<tr>
+                    <td class="font-black text-slate-400 pl-6 py-3">${i + 1}</td>
+                    <td class="font-bold text-slate-800 uppercase text-[12px] py-3">${record.cause}</td>
+                    <td class="text-right pr-8 text-emerald-600 font-black italic text-[11px] py-3">${record.status}</td>
+                </tr>`;
+            });
+        };
+
+        window.onload = renderUI;
+
+        function toggleMenu(id) {
+            const el = document.getElementById(id);
+            if(el) el.classList.toggle('hidden');
+        }
+</script>
+</body>
+</html>
