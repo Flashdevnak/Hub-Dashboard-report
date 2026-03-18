@@ -1,8 +1,46 @@
 import seedData from "../seed/dashboard-seed.json";
 import { adminAuth, adminDb } from "../lib/firebase-admin";
 
+type SeedBranch = {
+  code: string;
+  name: string;
+  area?: string;
+  active?: boolean;
+};
+
+type SeedSite = {
+  appName?: string;
+  brand?: string;
+  theme?: {
+    primary?: string;
+    dark?: string;
+  };
+  nav?: Array<{
+    slug: string;
+    label: string;
+    group?: string;
+  }>;
+  branches?: SeedBranch[];
+  defaultBranchCode?: string;
+};
+
+type SeedPage = {
+  slug: string;
+  title?: string;
+  branchCode?: string;
+  [key: string]: unknown;
+};
+
 function buildPageId(slug: string, branchCode = "default") {
   return `${branchCode}__${slug}`;
+}
+
+function getSeedSite(): SeedSite {
+  return (seedData.site ?? {}) as SeedSite;
+}
+
+function getSeedPages(): SeedPage[] {
+  return Array.isArray(seedData.pages) ? (seedData.pages as SeedPage[]) : [];
 }
 
 async function main() {
@@ -23,26 +61,37 @@ async function main() {
     });
   }
 
-  await adminDb.collection("users").doc(userRecord.uid).set({
-    uid: userRecord.uid,
-    email: adminEmail,
-    role: "admin",
-    allowedBranches: ["default"],
-    updatedAt: new Date().toISOString()
-  }, { merge: true });
+  await adminDb.collection("users").doc(userRecord.uid).set(
+    {
+      uid: userRecord.uid,
+      email: adminEmail,
+      role: "admin",
+      allowedBranches: ["default"],
+      updatedAt: new Date().toISOString()
+    },
+    { merge: true }
+  );
+
+  const site = getSeedSite();
+
+  const branches: SeedBranch[] =
+    Array.isArray(site.branches) && site.branches.length
+      ? site.branches
+      : [{ code: "default", name: "สาขาหลัก", area: "ส่วนกลาง", active: true }];
+
+  const defaultBranchCode =
+    site.defaultBranchCode || branches[0]?.code || "default";
 
   const sitePayload = {
-    ...seedData.site,
-    branches: seedData.site.branches?.length ? seedData.site.branches : [
-      { code: "default", name: "สาขาหลัก", area: "ส่วนกลาง", active: true }
-    ],
-    defaultBranchCode: seedData.site.defaultBranchCode || "default"
+    ...site,
+    branches,
+    defaultBranchCode
   };
 
   await adminDb.collection("site").doc("settings").set(sitePayload, { merge: true });
 
-  for (const rawPage of seedData.pages) {
-    const branchCode = rawPage.branchCode || "default";
+  for (const rawPage of getSeedPages()) {
+    const branchCode = rawPage.branchCode || defaultBranchCode;
     const pageId = buildPageId(rawPage.slug, branchCode);
     const page = { ...rawPage, branchCode, pageId };
     await adminDb.collection("pages").doc(pageId).set(page, { merge: true });
