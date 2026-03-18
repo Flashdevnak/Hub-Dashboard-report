@@ -16,7 +16,15 @@ import {
   writeBatch
 } from "firebase/firestore";
 import { db } from "./firebase-client";
-import type { PageDoc, SiteConfig, AppUser, AuditEvent, DataBundle, Role, MappingTemplate } from "./types";
+import type {
+  PageDoc,
+  SiteConfig,
+  AppUser,
+  AuditEvent,
+  DataBundle,
+  Role,
+  MappingTemplate
+} from "./types";
 
 export type AuditActor = {
   uid: string;
@@ -32,6 +40,7 @@ export function buildPageId(slug: string, branchCode = "default") {
 function normalizePageDoc(data: Record<string, unknown>, fallbackId?: string): PageDoc {
   const raw = data as PageDoc;
   const pageId = (raw.pageId || fallbackId || buildPageId(raw.slug, raw.branchCode || "default")) as string;
+
   return {
     ...raw,
     branchCode: raw.branchCode || String(pageId).split("__")[0] || "default",
@@ -41,10 +50,14 @@ function normalizePageDoc(data: Record<string, unknown>, fallbackId?: string): P
 
 function normalizeUser(data: Record<string, unknown>): AppUser {
   const raw = data as AppUser;
+
   return {
     ...raw,
     role: raw.role || "user",
-    allowedBranches: Array.isArray(raw.allowedBranches) && raw.allowedBranches.length ? raw.allowedBranches : ["default"]
+    allowedBranches:
+      Array.isArray(raw.allowedBranches) && raw.allowedBranches.length
+        ? raw.allowedBranches
+        : ["default"]
   };
 }
 
@@ -65,7 +78,9 @@ function collectDiffPaths(before: unknown, after: unknown, base = ""): string[] 
 
   if (isObjectLike(before) && isObjectLike(after)) {
     const keys = Array.from(new Set([...Object.keys(before), ...Object.keys(after)])).sort();
-    const nested = keys.flatMap((key) => collectDiffPaths(before[key], after[key], base ? `${base}.${key}` : key));
+    const nested = keys.flatMap((key) =>
+      collectDiffPaths(before[key], after[key], base ? `${base}.${key}` : key)
+    );
     return nested.length ? nested : [base || "root"];
   }
 
@@ -81,18 +96,20 @@ async function logAudit(event: Omit<AuditEvent, "createdAt">) {
 
 export async function getSiteConfig(): Promise<SiteConfig> {
   const snapshot = await getDoc(doc(db, "site", "settings"));
-  const site = snapshot.data() as SiteConfig;
+  const site = snapshot.data() as SiteConfig | undefined;
+
   return {
-    ...site,
+    ...(site || {}),
     branches: site?.branches?.length
       ? site.branches
       : [{ code: "default", name: "สาขาหลัก", area: "ส่วนกลาง", active: true }],
     defaultBranchCode: site?.defaultBranchCode || site?.branches?.[0]?.code || "default"
-  };
+  } as SiteConfig;
 }
 
 export async function getPages(): Promise<PageDoc[]> {
   const snapshot = await getDocs(collection(db, "pages"));
+
   return snapshot.docs
     .map((d) => normalizePageDoc(d.data() as Record<string, unknown>, d.id))
     .sort((a, b) => `${a.branchCode}:${a.title}`.localeCompare(`${b.branchCode}:${b.title}`));
@@ -100,12 +117,14 @@ export async function getPages(): Promise<PageDoc[]> {
 
 export async function getPage(slug: string, branchCode = "default"): Promise<PageDoc | null> {
   const candidates = [buildPageId(slug, branchCode), buildPageId(slug, "default"), slug];
+
   for (const candidate of candidates) {
     const snapshot = await getDoc(doc(db, "pages", candidate));
     if (snapshot.exists()) {
       return normalizePageDoc(snapshot.data() as Record<string, unknown>, snapshot.id);
     }
   }
+
   return null;
 }
 
@@ -115,12 +134,14 @@ export async function savePage(page: PageDoc, actor?: AuditActor) {
   const ref = doc(db, "pages", pageId);
   const existing = await getDoc(ref);
   const before = existing.exists() ? cloneClean(existing.data()) : null;
+
   const payload = {
     ...page,
     branchCode,
     pageId,
     updatedAt: serverTimestamp()
   };
+
   await setDoc(ref, payload, { merge: true });
 
   if (page.pageId && page.pageId !== pageId) {
@@ -128,7 +149,10 @@ export async function savePage(page: PageDoc, actor?: AuditActor) {
   }
 
   if (actor) {
-    const changedFields = collectDiffPaths(before, { ...page, branchCode, pageId }).filter((value, index, arr) => arr.indexOf(value) === index).slice(0, 100);
+    const changedFields = collectDiffPaths(before, { ...page, branchCode, pageId })
+      .filter((value, index, arr) => arr.indexOf(value) === index)
+      .slice(0, 100);
+
     await logAudit({
       action: "page.save",
       entityType: "page",
@@ -156,18 +180,33 @@ export async function deletePage(pageId: string, actor?: AuditActor) {
   }
 }
 
-export async function cloneBranchPages(sourceBranchCode: string, targetBranchCode: string, actor?: AuditActor) {
+export async function cloneBranchPages(
+  sourceBranchCode: string,
+  targetBranchCode: string,
+  actor?: AuditActor
+) {
   const pages = await getPages();
   const sourcePages = pages.filter((page) => (page.branchCode || "default") === sourceBranchCode);
   const batch = writeBatch(db);
+
   for (const page of sourcePages) {
+    const clonedPageId = buildPageId(page.slug, targetBranchCode);
     const cloned: PageDoc = {
       ...page,
       branchCode: targetBranchCode,
-      pageId: buildPageId(page.slug, targetBranchCode)
+      pageId: clonedPageId
     };
-    batch.set(doc(db, "pages", cloned.pageId), { ...cloned, updatedAt: serverTimestamp() }, { merge: true });
+
+    batch.set(
+      doc(db, "pages", clonedPageId),
+      {
+        ...cloned,
+        updatedAt: serverTimestamp()
+      },
+      { merge: true }
+    );
   }
+
   await batch.commit();
 
   if (actor) {
@@ -187,16 +226,26 @@ export async function saveSiteConfig(site: SiteConfig, actor?: AuditActor) {
   const ref = doc(db, "site", "settings");
   const existing = await getDoc(ref);
   const before = existing.exists() ? cloneClean(existing.data()) : null;
+
   const normalized = {
     ...site,
     defaultBranchCode: site.defaultBranchCode || site.branches?.[0]?.code || "default",
-    branches: site.branches?.length ? site.branches : [{ code: "default", name: "สาขาหลัก", active: true }],
+    branches: site.branches?.length
+      ? site.branches
+      : [{ code: "default", name: "สาขาหลัก", active: true }],
     updatedAt: serverTimestamp()
   };
+
   await setDoc(ref, normalized, { merge: true });
 
   if (actor) {
-    const changedFields = collectDiffPaths(before, { ...site, defaultBranchCode: site.defaultBranchCode || site.branches?.[0]?.code || "default" }).filter((value, index, arr) => arr.indexOf(value) === index).slice(0, 100);
+    const changedFields = collectDiffPaths(before, {
+      ...site,
+      defaultBranchCode: site.defaultBranchCode || site.branches?.[0]?.code || "default"
+    })
+      .filter((value, index, arr) => arr.indexOf(value) === index)
+      .slice(0, 100);
+
     await logAudit({
       action: "site.save",
       entityType: "site",
@@ -229,20 +278,35 @@ export async function upsertUserProfile(user: AppUser) {
 
 export async function getUsers(): Promise<AppUser[]> {
   const snapshot = await getDocs(collection(db, "users"));
+
   return snapshot.docs
     .map((d) => normalizeUser(d.data() as Record<string, unknown>))
     .sort((a, b) => (a.email || "").localeCompare(b.email || ""));
 }
 
-export async function updateUserAccess(uid: string, role: Role, allowedBranches: string[], actor?: AuditActor) {
+export async function updateUserAccess(
+  uid: string,
+  role: Role,
+  allowedBranches: string[],
+  actor?: AuditActor
+) {
   const ref = doc(db, "users", uid);
   const existing = await getDoc(ref);
   const before = existing.exists() ? cloneClean(existing.data()) : null;
-  const payload = { role, allowedBranches: allowedBranches.length ? allowedBranches : ["default"], updatedAt: serverTimestamp() };
+
+  const payload = {
+    role,
+    allowedBranches: allowedBranches.length ? allowedBranches : ["default"],
+    updatedAt: serverTimestamp()
+  };
+
   await updateDoc(ref, payload);
 
   if (actor) {
-    const changedFields = collectDiffPaths(before, { ...(before || {}), role, allowedBranches }).filter((value, index, arr) => arr.indexOf(value) === index).slice(0, 100);
+    const changedFields = collectDiffPaths(before, { ...(before || {}), role, allowedBranches })
+      .filter((value, index, arr) => arr.indexOf(value) === index)
+      .slice(0, 100);
+
     await logAudit({
       action: "user.access.update",
       entityType: "user",
@@ -256,20 +320,22 @@ export async function updateUserAccess(uid: string, role: Role, allowedBranches:
 }
 
 export async function getAuditLogs(max = 50): Promise<AuditEvent[]> {
-  const snapshot = await getDocs(query(collection(db, "audit_logs"), orderBy("createdAt", "desc"), limit(max)));
+  const snapshot = await getDocs(
+    query(collection(db, "audit_logs"), orderBy("createdAt", "desc"), limit(max))
+  );
+
   return snapshot.docs.map((d) => ({ id: d.id, ...(d.data() as AuditEvent) }));
 }
-
-
 
 function normalizeTemplate(data: Record<string, unknown>, fallbackId?: string): MappingTemplate {
   const raw = data as MappingTemplate;
   const normalizedScope = raw.scope || ((raw.branchCode || "default") === "*" ? "global" : "branch");
+
   return {
     ...raw,
     id: raw.id || fallbackId,
     scope: normalizedScope,
-    branchCode: normalizedScope === "global" ? "*" : (raw.branchCode || "default"),
+    branchCode: normalizedScope === "global" ? "*" : raw.branchCode || "default",
     priority: typeof raw.priority === "number" ? raw.priority : 100,
     fallback: raw.fallback ?? false,
     vendor: raw.vendor || "",
@@ -285,17 +351,22 @@ function normalizeTemplate(data: Record<string, unknown>, fallbackId?: string): 
 
 export async function getMappingTemplates(): Promise<MappingTemplate[]> {
   const snapshot = await getDocs(collection(db, "mapping_templates"));
+
   return snapshot.docs
     .map((d) => normalizeTemplate(d.data() as Record<string, unknown>, d.id))
     .sort((a, b) => `${a.slug}:${a.datasetKey}:${a.name}`.localeCompare(`${b.slug}:${b.datasetKey}:${b.name}`));
 }
 
 export async function saveMappingTemplate(template: MappingTemplate, actor?: AuditActor) {
-  const ref = template.id ? doc(db, "mapping_templates", template.id) : doc(collection(db, "mapping_templates"));
+  const ref = template.id
+    ? doc(db, "mapping_templates", template.id)
+    : doc(collection(db, "mapping_templates"));
+
   const existing = template.id ? await getDoc(ref) : null;
   const before = existing?.exists() ? cloneClean(existing.data()) : null;
   const scope = template.scope || (template.branchCode === "*" ? "global" : "branch");
-  const normalizedBranchCode = scope === "global" ? "*" : (template.branchCode || "default");
+  const normalizedBranchCode = scope === "global" ? "*" : template.branchCode || "default";
+
   const payload = {
     ...template,
     id: ref.id,
@@ -313,10 +384,14 @@ export async function saveMappingTemplate(template: MappingTemplate, actor?: Aud
     trimBlankRows: template.trimBlankRows ?? true,
     updatedAt: serverTimestamp()
   };
+
   await setDoc(ref, payload, { merge: true });
 
   if (actor) {
-    const changedFields = collectDiffPaths(before, { ...payload, updatedAt: undefined }).filter((value, index, arr) => arr.indexOf(value) === index).slice(0, 100);
+    const changedFields = collectDiffPaths(before, { ...payload, updatedAt: undefined })
+      .filter((value, index, arr) => arr.indexOf(value) === index)
+      .slice(0, 100);
+
     await logAudit({
       action: "mapping_template.save",
       entityType: "bundle",
@@ -345,6 +420,7 @@ export async function saveMappingTemplate(template: MappingTemplate, actor?: Aud
 
 export async function deleteMappingTemplate(templateId: string, actor?: AuditActor) {
   await deleteDoc(doc(db, "mapping_templates", templateId));
+
   if (actor) {
     await logAudit({
       action: "mapping_template.delete",
@@ -358,21 +434,54 @@ export async function deleteMappingTemplate(templateId: string, actor?: AuditAct
 }
 
 export async function exportBundle(): Promise<DataBundle> {
-  const [site, pages, mappingTemplates] = await Promise.all([getSiteConfig(), getPages(), getMappingTemplates()]);
+  const [site, pages, mappingTemplates] = await Promise.all([
+    getSiteConfig(),
+    getPages(),
+    getMappingTemplates()
+  ]);
+
   return { site, pages, mappingTemplates };
 }
 
 export async function importBundle(bundle: DataBundle, actor?: AuditActor) {
   const batch = writeBatch(db);
-  batch.set(doc(db, "site", "settings"), { ...bundle.site, updatedAt: serverTimestamp() }, { merge: true });
+
+  batch.set(
+    doc(db, "site", "settings"),
+    { ...bundle.site, updatedAt: serverTimestamp() },
+    { merge: true }
+  );
+
   for (const page of bundle.pages) {
     const pageId = buildPageId(page.slug, page.branchCode || "default");
-    batch.set(doc(db, "pages", pageId), { ...page, pageId, branchCode: page.branchCode || "default", updatedAt: serverTimestamp() }, { merge: true });
+    batch.set(
+      doc(db, "pages", pageId),
+      {
+        ...page,
+        pageId,
+        branchCode: page.branchCode || "default",
+        updatedAt: serverTimestamp()
+      },
+      { merge: true }
+    );
   }
+
   for (const template of bundle.mappingTemplates || []) {
-    const templateRef = template.id ? doc(db, "mapping_templates", template.id) : doc(collection(db, "mapping_templates"));
-    batch.set(templateRef, { ...template, id: templateRef.id, updatedAt: serverTimestamp() }, { merge: true });
+    const templateRef = template.id
+      ? doc(db, "mapping_templates", template.id)
+      : doc(collection(db, "mapping_templates"));
+
+    batch.set(
+      templateRef,
+      {
+        ...template,
+        id: templateRef.id,
+        updatedAt: serverTimestamp()
+      },
+      { merge: true }
+    );
   }
+
   await batch.commit();
 
   if (actor) {
@@ -383,7 +492,13 @@ export async function importBundle(bundle: DataBundle, actor?: AuditActor) {
       actorUid: actor.uid,
       actorEmail: actor.email,
       summary: `Imported bundle with ${bundle.pages.length} pages`,
-      meta: { pageCount: bundle.pages.length, mappingTemplateCount: (bundle.mappingTemplates || []).length, branchCodes: Array.from(new Set(bundle.pages.map((page) => page.branchCode || "default"))).sort() }
+      meta: {
+        pageCount: bundle.pages.length,
+        mappingTemplateCount: (bundle.mappingTemplates || []).length,
+        branchCodes: Array.from(
+          new Set(bundle.pages.map((page) => page.branchCode || "default"))
+        ).sort()
+      }
     });
   }
 }
