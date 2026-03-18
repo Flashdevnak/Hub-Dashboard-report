@@ -22,17 +22,20 @@ export function LoginForm() {
     try {
       if (mode === "login") {
         await signInWithEmailAndPassword(auth, email, password);
-      } else {
-        const credential = await createUserWithEmailAndPassword(auth, email, password);
-        await upsertUserProfile({
-          uid: credential.user.uid,
-          email: credential.user.email,
-          role: "user",
-          allowedBranches: ["default"]
-        });
+        router.replace(nextPath);
+        return;
       }
 
-      router.replace(nextPath);
+      const credential = await createUserWithEmailAndPassword(auth, email, password);
+
+      await upsertUserProfile({
+        uid: credential.user.uid,
+        email: credential.user.email,
+        role: "user",
+        allowedBranches: ["default"]
+      });
+
+      router.replace("/setup");
     } catch (err) {
       setError(err instanceof Error ? err.message : "เกิดข้อผิดพลาด");
     }
