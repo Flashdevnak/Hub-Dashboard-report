@@ -2,13 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { onAuthStateChanged, type User } from "firebase/auth";
-import { useRouter } from "next/navigation";
 import { auth } from "@/lib/firebase-client";
 
 export const dynamic = "force-dynamic";
 
 export default function SetupPage() {
-  const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [checking, setChecking] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -34,7 +32,7 @@ export default function SetupPage() {
     setMessage("");
 
     try {
-      const token = await user.getIdToken();
+      const token = await user.getIdToken(true);
 
       const res = await fetch("/api/admin/seed", {
         method: "POST",
@@ -51,7 +49,9 @@ export default function SetupPage() {
 
       setMessage(`Seed สำเร็จแล้ว (${data.pageCount} pages)`);
 
-      window.location.href = "/admin";
+      await user.getIdToken(true);
+
+      window.location.href = "/admin?seeded=1";
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "เกิดข้อผิดพลาด");
     } finally {
