@@ -18,12 +18,14 @@ export default function SetupPage() {
     const unsub = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       setChecking(false);
+
       if (!currentUser) {
-        router.replace("/login?next=/setup");
+        window.location.href = "/login?next=/setup";
       }
     });
+
     return () => unsub();
-  }, [router]);
+  }, []);
 
   async function seedSystem() {
     if (!user) return;
@@ -33,6 +35,7 @@ export default function SetupPage() {
 
     try {
       const token = await user.getIdToken();
+
       const res = await fetch("/api/admin/seed", {
         method: "POST",
         headers: {
@@ -47,9 +50,8 @@ export default function SetupPage() {
       }
 
       setMessage(`Seed สำเร็จแล้ว (${data.pageCount} pages)`);
-      setTimeout(() => {
-        router.replace("/admin");
-      }, 1200);
+
+      window.location.href = "/admin";
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "เกิดข้อผิดพลาด");
     } finally {
@@ -70,8 +72,12 @@ export default function SetupPage() {
       </p>
 
       <div className="mt-6 rounded-2xl bg-slate-50 p-4 text-sm text-slate-700">
-        <div><b>User:</b> {user?.email || "-"}</div>
-        <div className="mt-1"><b>Mode:</b> Online seed via server route</div>
+        <div>
+          <b>User:</b> {user?.email || "-"}
+        </div>
+        <div className="mt-1">
+          <b>Mode:</b> Online seed via server route
+        </div>
       </div>
 
       {message ? (
@@ -92,7 +98,9 @@ export default function SetupPage() {
 
         <button
           type="button"
-          onClick={() => router.push("/admin")}
+          onClick={() => {
+            window.location.href = "/admin";
+          }}
           className="rounded-xl border border-slate-300 px-5 py-3 text-sm font-bold"
         >
           ไปหน้า Admin
